@@ -1,0 +1,109 @@
+{
+    "exclude": [
+        "(\\.idea$)",
+        "(\\.gradle$)",
+        "(^build/)",
+        "(^gradle/)",
+        "(target/)"
+    ],
+    "linters": {
+        "nolint": {
+            "type": "nolint"
+        },
+        "generated": {
+            "type": "generated"
+        },
+        "chmod": {
+            "type": "chmod"
+        },
+        "filename": {
+            "type": "filename",
+            "exclude": [
+                "(operations#env=test\\d)",
+                "(operations#env=exa\\d)",
+                "(operations#env=prod\\d)"
+            ]
+        },
+        "spelling": {
+            "type": "spelling"
+        },
+        "text": {
+            "type": "text",
+            "severity": {
+                "1": "disabled",
+                "3": "disabled",
+                "5": "disabled"
+            },
+            "exclude": [
+              "(Makefile$)"
+            ]
+        },
+        "checkstyle": {
+            "type": "checkstyle",
+            "include": "(\\.java$)"
+        },
+        "detekt": {
+            "type": "detekt",
+            "include": [
+                "(\\.kt$)",
+                "(\\.kts$)"
+            ]
+        },
+        "json": {
+            "type": "json",
+            "include": [
+                "(^\\.arcconfig)",
+                "(^\\.arclint)",
+                "(^\\.eslintrc)",
+                "(^\\.prettierrc)",
+                "(\\.json$)"
+            ]
+        },
+        "xml": {
+            "type": "xml",
+            "include": "(\\.xml$)"
+        },
+        "xhpast": {
+          "type": "xhpast",
+          "include": "(\\.php$)",
+          "standard": "phutil.xhpast"
+        },
+        "phutil-library": {
+            "type": "phutil-library",
+            "include": "(\\.php$)"
+        },
+        "ansible": {
+            "type": "ansible-lint",
+            "include": [
+                "(\\.yml$)",
+                "(\\.yaml$)"
+            ]
+        },
+        "yamllint": {
+            "type": "yamllint",
+            "include": [
+            "(\\.yml$)",
+                "(\\.yaml$)"
+            ]
+        },
+        "prettier": {
+            "type": "prettier",
+            "include": [
+                "(\\.js$)",
+                "(\\.jsx$)",
+                "(\\.ts$)",
+                "(\\.tsx$)"
+            ]
+        },
+        "eslint": {
+            "type": "eslint",
+            "include": [
+                "(\\.js$)",
+                "(\\.jsx$)",
+                "(\\.ts$)",
+                "(\\.tsx$)"
+            ],
+            "eslint.fix": true
+        }
+    }
+}
