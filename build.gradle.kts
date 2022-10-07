@@ -62,13 +62,12 @@ testlogger {
 /*
  * Publishing
  */
+val repository = project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local"
+
 publishing {
     repositories {
         maven {
-            url = uri(
-                "https://jfrog.elhub.cloud/artifactory" +
-                        (project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local")
-            )
+            url = uri("https://jfrog.elhub.cloud/artifactory$repository")
         }
     }
 }
@@ -77,7 +76,7 @@ artifactory {
     setContextUrl("https://jfrog.elhub.cloud/artifactory")
     publish(delegateClosureOf<PublisherConfig> {
         repository(delegateClosureOf<groovy.lang.GroovyObject> {
-            setProperty("repoKey", project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local")
+            setProperty("repoKey", repository)
             setProperty("username", project.findProperty("artifactoryUsername") ?: "nouser")
             setProperty("password", project.findProperty("artifactoryPassword") ?: "nopass")
         })
