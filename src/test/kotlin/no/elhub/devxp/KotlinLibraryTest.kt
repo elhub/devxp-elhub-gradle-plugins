@@ -3,14 +3,14 @@ package no.elhub.devxp
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.string.shouldContain
 
-class KotlinCoreTest : DescribeSpec({
+class KotlinLibraryTest : DescribeSpec({
     val testInstance = TestInstance()
 
     beforeSpec {
         testInstance.buildFile.appendText(
             """
             plugins {
-                id("no.elhub.devxp.kotlin-core")
+                id("no.elhub.devxp.kotlin-library")
             }
             """
         )
@@ -23,6 +23,8 @@ class KotlinCoreTest : DescribeSpec({
             "dependencyUpdates",
             "jacocoTestReport",
             "test",
+            "publish",
+            "artifactoryPublish"
         )
         val result = testInstance.runTask("tasks")
 

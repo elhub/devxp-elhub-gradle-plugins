@@ -1,4 +1,6 @@
-// Define core Kotlin project conventions for Elhub.no
+/**
+ * Define core Kotlin project conventions for Elhub.no
+ */
 package no.elhub.devxp
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
@@ -59,6 +61,7 @@ tasks.jacocoTestReport {
 testlogger {
     theme = ThemeType.MOCHA
 }
+
 
 /*
  * TeamCity

@@ -5,8 +5,6 @@ plugins {
     id("com.github.ben-manes.versions") version "0.41.0"
     id("jacoco")
     id("com.adarshr.test-logger") version "3.2.0"
-    id("io.qameta.allure") version "2.10.0"
-    id("io.qameta.allure-download") version "2.10.0"
     id("com.jfrog.artifactory") version "4.29.0"
     id("maven-publish") apply true
 }
@@ -28,6 +26,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
     implementation("com.github.ben-manes:gradle-versions-plugin:0.41.0")
     implementation("com.adarshr:gradle-test-logger-plugin:3.2.0")
+    implementation("org.jfrog.buildinfo:build-info-extractor-gradle:4.29.0")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-extensions-allure-jvm:4.4.3")
     implementation("commons-io:commons-io:2.11.0")
