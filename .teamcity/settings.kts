@@ -36,7 +36,7 @@ project {
         vcsRoot = DslContext.settingsRoot,
         type = projectType,
         sonarId = projectId,
-        sonarProjectSources = "src/main/resources",
+        sonarProjectSources = "src/main",
     )
 
     val sonarScan = SonarScan(sonarScanConfig) {
