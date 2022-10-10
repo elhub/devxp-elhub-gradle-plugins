@@ -9,6 +9,8 @@ plugins {
     id("no.elhub.devxp.kotlin-core")
     id("com.jfrog.artifactory")
     id("maven-publish")
+    id("com.github.johnrengelman.shadow")
+    id("application")
 }
 
 /*
@@ -45,3 +47,19 @@ artifactory {
 }
 
 tasks["publish"].dependsOn(tasks["artifactoryPublish"])
+
+/*
+ * Executable Jar File Assembly.
+ */
+val applicationMainClass : String by project
+
+application {
+    mainClass.set(applicationMainClass)
+}
+
+val shadowJar by tasks.getting(com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar::class) {
+    archiveBaseName.set(rootProject.name)
+    archiveClassifier.set("")
+}
+
+tasks["assemble"].dependsOn(tasks["shadowJar"])

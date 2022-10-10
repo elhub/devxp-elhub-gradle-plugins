@@ -23,10 +23,11 @@ group = "no.elhub.devxp"
  *  are available when building the plugin Jar.
  */
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
     implementation("com.github.ben-manes:gradle-versions-plugin:0.41.0")
     implementation("com.adarshr:gradle-test-logger-plugin:3.2.0")
     implementation("org.jfrog.buildinfo:build-info-extractor-gradle:4.29.0")
+    implementation("gradle.plugin.com.github.johnrengelman:shadow:7.1.2")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-extensions-allure-jvm:4.4.3")
     implementation("commons-io:commons-io:2.11.0")
