@@ -11,7 +11,7 @@ plugins {
 
 repositories {
     maven(url = "https://jfrog.elhub.cloud/artifactory/elhub-mvn")
-    gradlePluginPortal()
+    maven(url = "https://jfrog.elhub.cloud/artifactory/elhub-plugins")
 }
 
 val allureVersion = "2.19.0"
