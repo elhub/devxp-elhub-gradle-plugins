@@ -10,7 +10,7 @@
 
 ## About
 
-devxp-elhub-gradle-plugins is a multi-module repository that contains plugins to streamline the development of products
+devxp-elhub-gradle-plugins is a repository that contains plugins to streamline the development of products
 built with gradle at Elhub. It contains the common build logic for a variety of different types of Kotlin/Jvm
 components.
 
