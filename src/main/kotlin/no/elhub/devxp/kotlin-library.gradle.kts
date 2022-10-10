@@ -20,7 +20,7 @@ publishing {
     repositories {
         maven {
             url = uri(
-                "https://jfrog.elhub.cloud/artifactory" + repository
+                "https://jfrog.elhub.cloud/artifactory/" + repository
             )
         }
     }
