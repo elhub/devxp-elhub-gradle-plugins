@@ -20,7 +20,7 @@ val repository = project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev
 publishing {
     repositories {
         maven {
-            url = uri("$artifactory/$repository")
+            url = uri("$publishUri/$repository")
         }
     }
 }

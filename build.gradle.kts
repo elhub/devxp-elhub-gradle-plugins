@@ -63,13 +63,13 @@ testlogger {
 /*
  * Publishing
  */
-val publishUri = project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory/"
+val publishUri = project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory"
 val repository = project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local"
 
 publishing {
     repositories {
         maven {
-            url = uri("$artifactory/$repository")
+            url = uri("$publishUri/$repository")
         }
     }
 }
