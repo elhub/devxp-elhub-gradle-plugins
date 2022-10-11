@@ -14,28 +14,24 @@ plugins {
 /*
  * Publishing
  */
-val publishUri = project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory/"
-val repository = project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local"
-
 publishing {
-    repositories {
-        maven {
-            url = uri("$publishUri/$repository")
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }
 
 artifactory {
-    setContextUrl(publishUri)
+    setContextUrl(project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory")
     publish(delegateClosureOf<PublisherConfig> {
         repository(delegateClosureOf<groovy.lang.GroovyObject> {
-            setProperty("repoKey", repository)
+            setProperty("repoKey", project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local")
             setProperty("username", project.findProperty("artifactoryUsername") ?: "nouser")
             setProperty("password", project.findProperty("artifactoryPassword") ?: "nopass")
         })
         defaults(delegateClosureOf<groovy.lang.GroovyObject> {
-            setProperty("publishArtifacts", true)
-            setProperty("publishPom", false)
+            invokeMethod("publications", "ALL_PUBLICATIONS")
         })
     })
     resolve(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig> {
