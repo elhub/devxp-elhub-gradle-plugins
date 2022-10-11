@@ -16,20 +16,19 @@ plugins {
 /*
  * Publishing
  */
+val publishUri = project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory/"
 val repository = project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local"
 
 publishing {
     repositories {
         maven {
-            url = uri(
-                "https://jfrog.elhub.cloud/artifactory/" + repository
-            )
+            url = uri("$artifactory/$repository")
         }
     }
 }
 
 artifactory {
-    setContextUrl("https://jfrog.elhub.cloud/artifactory")
+    setContextUrl(publishUri)
     publish(delegateClosureOf<PublisherConfig> {
         repository(delegateClosureOf<groovy.lang.GroovyObject> {
             setProperty("repoKey", repository)
@@ -51,7 +50,7 @@ tasks["publish"].dependsOn(tasks["artifactoryPublish"])
 /*
  * Executable Jar File Assembly.
  */
-val applicationMainClass : String by project
+val applicationMainClass: String by project
 
 application {
     mainClass.set(applicationMainClass)
