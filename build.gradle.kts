@@ -1,5 +1,4 @@
 import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
-import java.beans.EventHandler.create
 
 plugins {
     `kotlin-dsl`
