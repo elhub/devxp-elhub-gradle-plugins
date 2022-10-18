@@ -18,7 +18,7 @@ project {
     val projectName = "devxp-elhub-gradle-plugins"
     val projectId = "no.elhub.devxp:$projectName"
     val projectType = ProjectType.GRADLE
-    val artifactoryRepository = "elhub-mvn-release-local"
+    val artifactoryRepository = "elhub-plugins-release-local"
 
     params {
         param("teamcity.ui.settings.readOnly", "true")
