@@ -26,6 +26,7 @@ class KotlinApplicationTest : DescribeSpec({
         val optionsExpected = arrayOf<String>(
             "assemble",
             "dependencyUpdates",
+            "dependencyCheckAnalyze",
             "jacocoTestReport",
             "test",
             "publish",

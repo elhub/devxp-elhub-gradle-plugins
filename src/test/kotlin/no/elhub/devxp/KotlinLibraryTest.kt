@@ -20,6 +20,7 @@ class KotlinLibraryTest : DescribeSpec({
 
         val optionsExpected = arrayOf<String>(
             "assemble",
+            "dependencyCheckAnalyze",
             "dependencyUpdates",
             "jacocoTestReport",
             "test",

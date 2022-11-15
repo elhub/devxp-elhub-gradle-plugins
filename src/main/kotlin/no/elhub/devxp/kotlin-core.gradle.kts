@@ -4,6 +4,7 @@
 package no.elhub.devxp
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -11,6 +12,7 @@ plugins {
     id("com.github.ben-manes.versions")
     id("jacoco")
     id("com.adarshr.test-logger")
+    id("org.owasp.dependencycheck")
 }
 
 /** Project should use the Elhub artifactory instance
@@ -60,6 +62,22 @@ tasks.jacocoTestReport {
 
 testlogger {
     theme = ThemeType.MOCHA
+}
+
+/*
+ * Versions dependency checker
+ */
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    rejectVersionIf {
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
+    }
 }
 
 

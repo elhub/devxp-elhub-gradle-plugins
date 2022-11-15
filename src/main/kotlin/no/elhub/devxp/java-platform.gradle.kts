@@ -3,12 +3,14 @@
  */
 package no.elhub.devxp
 
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.repositories
 import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
 
 plugins {
     id("java-platform")
+    id("com.github.ben-manes.versions")
     id("com.jfrog.artifactory")
     id("maven-publish")
 }
@@ -28,6 +30,28 @@ tasks.withType<Test> {
 
 tasks.withType<Jar> {
     enabled = false
+}
+
+
+/*
+ * Versions update checker
+ */
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    rejectVersionIf {
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
+    }
+}
+
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+    checkConstraints = true
+    checkBuildEnvironmentConstraints = true
 }
 
 /*

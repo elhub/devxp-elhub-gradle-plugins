@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.test.logger.plugin)
     implementation(libs.build.jfrog.build.info)
     implementation(libs.build.shadow.plugin)
+    implementation(libs.owasp.dependency.check)
     testImplementation(libs.test.kotest.runner.junit5)
     testImplementation(libs.apache.commons.io)
 }

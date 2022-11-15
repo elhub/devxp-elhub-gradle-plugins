@@ -21,6 +21,7 @@ class JavaPlatformTest : DescribeSpec({
         val optionsExpected = arrayOf<String>(
             "assemble",
             "artifactoryPublish",
+            "dependencyUpdates",
             "publish"
         )
         val result = testInstance.runTask("tasks")
