@@ -20,7 +20,7 @@ group = "no.elhub.devxp"
  *  are available when building the plugin Jar.
  */
 dependencies {
-    implementation(libs.jetbrains.kotlin.gradle.plugin)
+    implementation(libs.kotlin.gradle.plugin)
     implementation(libs.version.gradle.versions.plugin)
     implementation(libs.test.logger.plugin)
     implementation(libs.build.jfrog.build.info)

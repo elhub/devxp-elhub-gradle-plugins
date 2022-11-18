@@ -6,6 +6,7 @@ package no.elhub.devxp
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.owasp.dependencycheck.reporting.ReportGenerator
 
 plugins {
     kotlin("jvm")
@@ -80,6 +81,13 @@ tasks.withType<DependencyUpdatesTask> {
     }
 }
 
+
+/*
+ * Dependency Check PLugin
+ */
+dependencyCheck {
+    format = ReportGenerator.Format.JSON
+}
 
 /*
  * TeamCity
