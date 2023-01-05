@@ -1,4 +1,7 @@
+import com.adarshr.gradle.testlogger.theme.ThemeType
+import groovy.lang.GroovyObject
 import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
+import org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig
 
 plugins {
     `kotlin-dsl`
@@ -54,7 +57,7 @@ tasks.jacocoTestReport {
 }
 
 testlogger {
-    theme = com.adarshr.gradle.testlogger.theme.ThemeType.MOCHA
+    theme = ThemeType.MOCHA
 }
 
 /*
@@ -71,16 +74,16 @@ publishing {
 artifactory {
     setContextUrl(project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory")
     publish(delegateClosureOf<PublisherConfig> {
-        repository(delegateClosureOf<groovy.lang.GroovyObject> {
+        repository(delegateClosureOf<GroovyObject> {
             setProperty("repoKey", project.findProperty("artifactoryRepository") ?: "elhub-plugins-dev-local")
             setProperty("username", project.findProperty("artifactoryUsername") ?: "nouser")
             setProperty("password", project.findProperty("artifactoryPassword") ?: "nopass")
         })
-        defaults(delegateClosureOf<groovy.lang.GroovyObject> {
+        defaults(delegateClosureOf<GroovyObject> {
             invokeMethod("publications", "ALL_PUBLICATIONS")
         })
     })
-    resolve(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig> {
+    resolve(delegateClosureOf<ResolverConfig> {
         setProperty("repoKey", "repo")
     })
 }

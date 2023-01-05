@@ -6,6 +6,8 @@ package no.elhub.devxp
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
+import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
 import org.owasp.dependencycheck.reporting.ReportGenerator
 
 plugins {
@@ -87,6 +89,11 @@ tasks.withType<DependencyUpdatesTask> {
  */
 dependencyCheck {
     format = ReportGenerator.Format.JSON
+    analyzers(delegateClosureOf<AnalyzerExtension> {
+        retirejs(delegateClosureOf<RetireJSExtension> {
+            retireJsUrl = "https://files.elhub.cloud/software/retirejs/jsrepository.json"
+        })
+    })
 }
 
 /*
