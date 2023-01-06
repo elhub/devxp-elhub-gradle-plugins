@@ -8,6 +8,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
 import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
+import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
 
 plugins {
@@ -94,6 +95,27 @@ dependencyCheck {
             retireJsUrl = "https://files.elhub.cloud/software/retirejs/jsrepository.json"
         })
     })
+}
+
+tasks.withType<Analyze> {
+    doFirst {
+        listOf("http", "https").forEach {
+            if (hasProperty("proxyPort") && hasProperty("proxyHost")) {
+                System.setProperty("$it.proxyHost", property("proxyHost").toString())
+                System.setProperty("$it.proxyPort", property("proxyPort").toString())
+            }
+            if (hasProperty("nonProxyHosts")) {
+                System.setProperty("$it.nonProxyHosts", property("nonProxyHosts").toString())
+            }
+        }
+    }
+    doLast {
+        listOf("http", "https").forEach {
+            System.clearProperty("$it.proxyPort")
+            System.clearProperty("$it.proxyHost")
+            System.clearProperty("$it.nonProxyHosts")
+        }
+    }
 }
 
 /*
