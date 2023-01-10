@@ -10,6 +10,7 @@ import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
 import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
+import kotlin.system.exitProcess
 
 plugins {
     kotlin("jvm")
@@ -99,13 +100,16 @@ dependencyCheck {
 
 tasks.withType<Analyze> {
     doFirst {
+        val proxyHost = project.findProperty("proxyHost")
+        val proxyPort = project.findProperty("proxyPort")
+        val nonProxyHosts = project.findProperty("nonProxyHosts")
         listOf("http", "https").forEach {
-            if (hasProperty("proxyPort") && hasProperty("proxyHost")) {
-                System.setProperty("$it.proxyHost", property("proxyHost").toString())
-                System.setProperty("$it.proxyPort", property("proxyPort").toString())
+            if (proxyHost != null && proxyPort != null) {
+                System.setProperty("$it.proxyHost", proxyHost.toString())
+                System.setProperty("$it.proxyPort", proxyPort.toString())
             }
-            if (hasProperty("nonProxyHosts")) {
-                System.setProperty("$it.nonProxyHosts", property("nonProxyHosts").toString())
+            if (nonProxyHosts != null) {
+                System.setProperty("$it.nonProxyHosts", nonProxyHosts.toString())
             }
         }
     }
