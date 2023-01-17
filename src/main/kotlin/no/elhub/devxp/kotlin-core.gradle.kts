@@ -93,6 +93,7 @@ dependencyCheck {
     format = ReportGenerator.Format.JSON
     analyzers(delegateClosureOf<AnalyzerExtension> {
         retirejs(delegateClosureOf<RetireJSExtension> {
+            enabled = false
             retireJsUrl = "https://files.elhub.cloud/software/retirejs/jsrepository.json"
         })
     })
