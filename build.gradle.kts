@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.version.gradle.versions)
     id("jacoco")
     alias(libs.plugins.test.logger)
-    id("org.owasp.dependencycheck") version "8.0.1"
+    id("org.owasp.dependencycheck") version "7.4.4"
     alias(libs.plugins.build.artifactory)
     id("maven-publish") apply true
 }
