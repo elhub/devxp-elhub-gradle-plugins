@@ -2,12 +2,17 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 import groovy.lang.GroovyObject
 import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
 import org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig
+import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
+import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
+import org.owasp.dependencycheck.gradle.tasks.Analyze
+import org.owasp.dependencycheck.reporting.ReportGenerator
 
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.version.gradle.versions)
     id("jacoco")
     alias(libs.plugins.test.logger)
+    id("org.owasp.dependencycheck") version "8.0.1"
     alias(libs.plugins.build.artifactory)
     id("maven-publish") apply true
 }
@@ -54,10 +59,50 @@ tasks.test {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
+    reports {
+        xml.required.set(true)
+    }
 }
 
 testlogger {
     theme = ThemeType.MOCHA
+}
+
+/*
+ * Dependency Check PLugin
+ */
+
+dependencyCheck {
+    format = ReportGenerator.Format.JSON
+    analyzers(delegateClosureOf<AnalyzerExtension> {
+        retirejs(delegateClosureOf<RetireJSExtension> {
+            enabled = false
+        })
+    })
+}
+
+tasks.withType<Analyze> {
+    doFirst {
+        val proxyHost = project.findProperty("proxyHost")
+        val proxyPort = project.findProperty("proxyPort")
+        val nonProxyHosts = project.findProperty("nonProxyHosts")
+        listOf("http", "https").forEach {
+            if (proxyHost != null && proxyPort != null) {
+                System.setProperty("$it.proxyHost", proxyHost.toString())
+                System.setProperty("$it.proxyPort", proxyPort.toString())
+            }
+            if (nonProxyHosts != null) {
+                System.setProperty("$it.nonProxyHosts", nonProxyHosts.toString())
+            }
+        }
+    }
+    doLast {
+        listOf("http", "https").forEach {
+            System.clearProperty("$it.proxyPort")
+            System.clearProperty("$it.proxyHost")
+            System.clearProperty("$it.nonProxyHosts")
+        }
+    }
 }
 
 /*

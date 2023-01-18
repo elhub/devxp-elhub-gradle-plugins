@@ -63,6 +63,9 @@ tasks.test {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
+    reports {
+        xml.required.set(true)
+    }
 }
 
 testlogger {
@@ -94,11 +97,11 @@ dependencyCheck {
     analyzers(delegateClosureOf<AnalyzerExtension> {
         retirejs(delegateClosureOf<RetireJSExtension> {
             enabled = false
-            retireJsUrl = "https://files.elhub.cloud/software/retirejs/jsrepository.json"
         })
     })
 }
 
+/*
 tasks.withType<Analyze> {
     doFirst {
         val proxyHost = project.findProperty("proxyHost")
@@ -122,6 +125,7 @@ tasks.withType<Analyze> {
         }
     }
 }
+ */
 
 /*
  * TeamCity
