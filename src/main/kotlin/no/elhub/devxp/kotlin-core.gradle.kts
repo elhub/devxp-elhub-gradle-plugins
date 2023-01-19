@@ -101,7 +101,6 @@ dependencyCheck {
     })
 }
 
-/*
 tasks.withType<Analyze> {
     doFirst {
         val proxyHost = project.findProperty("proxyHost")
@@ -125,7 +124,7 @@ tasks.withType<Analyze> {
         }
     }
 }
- */
+
 
 /*
  * TeamCity
