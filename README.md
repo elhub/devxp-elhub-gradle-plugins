@@ -30,8 +30,7 @@ In your settings.gradle.kts add a pluginManagement block to ensure the code can 
 ```kts
 pluginManagement {
     repositories {
-        maven(url = "https://jfrog.elhub.cloud/artifactory/elhub-mvn")
-        gradlePluginPortal()
+        maven(url = "https://jfrog.elhub.cloud/artifactory/elhub-plugins")
     }
 }
 ```
@@ -40,7 +39,7 @@ Then add the plugin you want to use in the plugins block of the build.gradle.kts
 
 ```kts
 plugins {
-    id("no.elhub.devxp.kotlin-XYZ") version "1.0.0"
+    id("no.elhub.devxp.kotlin-XYZ") version "0.0.12"
 }
 ```
 
@@ -50,19 +49,23 @@ Depending on the plugin deployed, you will find a number of useful plugins, repo
 suitable to your use-case. The plugins available are organized as follows:
 
 * `no.elhub.devxp.kotlin-core` - Sets up generic defaults that should be common for all Kotlin/Jvm projects at Elhub.
-  You will not normally apply the kotlin-core plugin directly, but rather use one of the derived plugins.
+  You will not normally apply the kotlin-core plugin directly, but rather use one of the derived plugins mentioned below.
 * `no.elhub.devxp.kotlin-application` - Configures the build file to enable builds of fat Jars, package applications,
   and deploying the resulting distributions to the appropriate maven repository.
 * `no.elhub.devxp.kotlin-library` - Configures the build file to pack jar files and deploy them to the appropriate maven
   repository.
 * `no.elhub.devxp.kotlin-services` - Configures the build file for light-weight API deployment.
+* `no.elhub.devxp.java-platform` - Configures the build file for java platform. 
 
-Applying the appropriate plugin automatically con
-
+Applying the appropriate plugin automatically configures build file.
+OWASP dependency check comes with all the above plugins, You can run dependency-check by executing:
+```html
+./gradlew dependencyCheckAnalyze
+```
 
 ## Testing
 
-All of the plugins can be tested using Gradle:
+All the plugins can be tested using Gradle:
 
     ./gradlew test
 
