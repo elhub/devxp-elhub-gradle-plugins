@@ -22,6 +22,8 @@ class KotlinCoreTest : DescribeSpec({
             "assemble",
             "dependencyUpdates",
             "dependencyCheckAnalyze",
+            "dokkaGfm",
+            "dokkaHtml",
             "jacocoTestReport",
             "test",
         )

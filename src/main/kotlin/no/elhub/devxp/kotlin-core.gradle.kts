@@ -18,6 +18,7 @@ plugins {
     id("jacoco")
     id("com.adarshr.test-logger")
     id("org.owasp.dependencycheck")
+    id("org.jetbrains.dokka")
 }
 
 /** Project should use the Elhub artifactory instance

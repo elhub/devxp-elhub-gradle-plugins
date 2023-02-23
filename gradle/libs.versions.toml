@@ -6,6 +6,7 @@ format.version = "1.1"
 
 [versions]
 commons-io = "2.11.0"
+dokka = "1.7.20"
 gradle-versions = "0.44.0"
 jfrog = "4.29.0"
 kotest = "5.5.1"
@@ -19,6 +20,7 @@ test-logger = "3.2.0"
 apache-commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
 build-jfrog-build-info = { group = "org.jfrog.buildinfo", name = "build-info-extractor-gradle", version.ref = "jfrog" }
 build-shadow-plugin = { group = "gradle.plugin.com.github.johnrengelman", name = "shadow", version.ref = "shadow" }
+docs-dokka-plugin = { group ="org.jetbrains.dokka", name ="dokka-gradle-plugin", version.ref = "dokka"}
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 test-logger-plugin = { group = "com.adarshr", name = "gradle-test-logger-plugin", version.ref = "test-logger" }
 test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
