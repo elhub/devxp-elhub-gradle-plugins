@@ -5,6 +5,7 @@ package no.elhub.devxp
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
 import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
@@ -122,6 +123,21 @@ tasks.withType<Analyze> {
             System.clearProperty("$it.proxyPort")
             System.clearProperty("$it.proxyHost")
             System.clearProperty("$it.nonProxyHosts")
+        }
+    }
+}
+
+
+/*
+ * Dokka
+ */
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets {
+        named("main") {
+            // Files containing module documentation
+            includes.from("module.md", "package.md")
+            // Emit warnings for undocumented code
+            reportUndocumented.set(true)
         }
     }
 }
