@@ -135,7 +135,8 @@ tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets {
         named("main") {
             // Files containing module documentation
-            includes.from("module.md", "package.md")
+            // Note files must exist (missing files break the build)
+            includes.from("module.md")
             // Emit warnings for undocumented code
             reportUndocumented.set(true)
         }
