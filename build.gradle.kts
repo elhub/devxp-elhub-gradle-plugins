@@ -70,7 +70,7 @@ testlogger {
 }
 
 /*
- * Dependency Check PLugin
+ * Dependency Check Plugin
  */
 
 dependencyCheck {

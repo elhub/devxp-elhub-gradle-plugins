@@ -12,7 +12,7 @@ import no.elhub.devxp.build.configuration.SonarScan
 import no.elhub.devxp.build.configuration.UnitTest
 import no.elhub.devxp.build.configuration.constants.GlobalTokens
 
-version = "2022.04"
+version = "2022.10"
 
 project {
     val projectName = "devxp-elhub-gradle-plugins"

@@ -13,7 +13,7 @@
     </parent>
 
     <properties>
-        <devxp-build-configuration.version>0.42.9</devxp-build-configuration.version>
+        <devxp-build-configuration.version>0.49.2</devxp-build-configuration.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -34,7 +34,7 @@
         </repository>
         <repository>
             <id>teamcity-server</id>
-            <url>http://teamcity.elhub.cloud/app/dsl-plugins-repository</url>
+            <url>https://teamcity.elhub.cloud/app/dsl-plugins-repository</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
