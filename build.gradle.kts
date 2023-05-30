@@ -144,3 +144,10 @@ tasks.register("teamCity", Exec::class) {
     workingDir(".teamcity")
     commandLine("mvn", "compile")
 }
+
+dependencyCheck {
+    formats = listOf(
+        ReportGenerator.Format.JSON,
+        ReportGenerator.Format.HTML,
+    )
+}
