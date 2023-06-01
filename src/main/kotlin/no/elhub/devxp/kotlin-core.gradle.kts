@@ -94,7 +94,10 @@ tasks.withType<DependencyUpdatesTask> {
  * Dependency Check PLugin
  */
 dependencyCheck {
-    format = ReportGenerator.Format.JSON
+    formats = listOf(
+        ReportGenerator.Format.JSON,
+        ReportGenerator.Format.HTML,
+    )
     analyzers(delegateClosureOf<AnalyzerExtension> {
         retirejs(delegateClosureOf<RetireJSExtension> {
             enabled = false
