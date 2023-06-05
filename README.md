@@ -54,7 +54,7 @@ suitable to your use-case. The plugins available are organized as follows:
   and deploying the resulting distributions to the appropriate maven repository.
 * `no.elhub.devxp.kotlin-library` - Configures the build file to pack jar files and deploy them to the appropriate maven
   repository.
-* `no.elhub.devxp.kotlin-services` - Configures the build file for light-weight API deployment.
+* `no.elhub.devxp.kotlin-service` - Configures the build file for light-weight API deployment.
 * `no.elhub.devxp.java-platform` - Configures the build file for java platform. 
 
 Applying the appropriate plugin automatically configures build file.
