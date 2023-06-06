@@ -9,6 +9,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
 import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
+import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
+import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
 
@@ -106,6 +108,14 @@ dependencyCheck {
 }
 
 tasks.withType<Analyze> {
+    setCustomConfiguration()
+}
+
+tasks.withType<Aggregate> {
+    setCustomConfiguration()
+}
+
+fun AbstractAnalyze.setCustomConfiguration() {
     doFirst {
         val proxyHost = project.findProperty("proxyHost")
         val proxyPort = project.findProperty("proxyPort")
