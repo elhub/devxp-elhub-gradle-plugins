@@ -4,6 +4,8 @@ import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
 import org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig
 import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
 import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
+import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
+import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
 
@@ -74,7 +76,10 @@ testlogger {
  */
 
 dependencyCheck {
-    format = ReportGenerator.Format.JSON
+    formats = listOf(
+        ReportGenerator.Format.JSON,
+        ReportGenerator.Format.HTML,
+    )
     analyzers(delegateClosureOf<AnalyzerExtension> {
         retirejs(delegateClosureOf<RetireJSExtension> {
             enabled = false
@@ -83,6 +88,14 @@ dependencyCheck {
 }
 
 tasks.withType<Analyze> {
+    setCustomConfiguration()
+}
+
+tasks.withType<Aggregate> {
+    setCustomConfiguration()
+}
+
+fun AbstractAnalyze.setCustomConfiguration() {
     doFirst {
         val proxyHost = project.findProperty("proxyHost")
         val proxyPort = project.findProperty("proxyPort")
