@@ -74,7 +74,6 @@ testlogger {
 /*
  * Dependency Check Plugin
  */
-
 dependencyCheck {
     formats = listOf(
         ReportGenerator.Format.JSON,
@@ -156,11 +155,4 @@ tasks.register("teamCity", Exec::class) {
     description = "Compile the TeamCity settings"
     workingDir(".teamcity")
     commandLine("mvn", "compile")
-}
-
-dependencyCheck {
-    formats = listOf(
-        ReportGenerator.Format.JSON,
-        ReportGenerator.Format.HTML,
-    )
 }
