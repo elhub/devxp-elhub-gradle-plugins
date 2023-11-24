@@ -97,8 +97,8 @@ tasks.withType<DependencyUpdatesTask> {
  */
 dependencyCheck {
     formats = listOf(
-        ReportGenerator.Format.JSON,
-        ReportGenerator.Format.HTML,
+        ReportGenerator.Format.JSON.name,
+        ReportGenerator.Format.HTML.name,
     )
     analyzers(delegateClosureOf<AnalyzerExtension> {
         retirejs(delegateClosureOf<RetireJSExtension> {
