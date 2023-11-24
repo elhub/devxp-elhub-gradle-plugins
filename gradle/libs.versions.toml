@@ -12,14 +12,14 @@ jfrog = "4.29.0"
 kotest = "5.8.0"
 kotlin = "1.9.21"
 owasp-dependency = "9.0.0"
-shadow = "8.1.1"
+shadow = "8.0.0"
 test-logger = "3.2.0"
 
 
 [libraries]
 apache-commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
 build-jfrog-build-info = { group = "org.jfrog.buildinfo", name = "build-info-extractor-gradle", version.ref = "jfrog" }
-build-shadow-plugin = { group = "gradle.plugin.com.github.johnrengelman", name = "shadow", version.ref = "shadow" }
+build-shadow-plugin = { group = "gradle.plugin.com.github.johnrengelman", name = "shadow-gradle-plugin", version.ref = "shadow" }
 docs-dokka-plugin = { group ="org.jetbrains.dokka", name ="dokka-gradle-plugin", version.ref = "dokka"}
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 test-logger-plugin = { group = "com.adarshr", name = "gradle-test-logger-plugin", version.ref = "test-logger" }
