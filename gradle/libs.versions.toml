@@ -3,7 +3,6 @@
 [metadata]
 format.version = "1.1"
 
-
 [versions]
 commons-io = "2.11.0"
 dokka = "1.7.20"
@@ -14,7 +13,6 @@ kotlin = "1.9.21"
 owasp-dependency = "8.4.0"
 shadow = "8.0.0"
 test-logger = "3.2.0"
-
 
 [libraries]
 apache-commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
