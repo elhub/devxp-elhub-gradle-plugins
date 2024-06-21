@@ -5,6 +5,7 @@ done so before. By following these guidelines, you will save the owning team bot
 your issues, assess changes, and helping you finalize any contributions to the project.
 
 You can contribute in many ways to the project:
+
 * Submit bug reports or feature requests
 * Improve the documentation, either the README here or the documentation on confluence (see README for link)
 * Hack on the project itself by fixing bugs you've found or adding new features
@@ -27,6 +28,7 @@ If you are looking at this repository on Github, feel free to submit a PR. Is th
 All code that is submitted into the project is code-reviewed by the responsible team (listed in CODEOWNERS) before being pushed into the repository.
 
 Expectations:
+
 * Create an issue for any major change or enhancement before writing any code. Creating an issue allows the change to be discussed openly by the team.
 * Ensure that code submitted follow our code guidelines (running the linters will ensure this).
 * Keep commits as small as possible, preferably one change per commit.
