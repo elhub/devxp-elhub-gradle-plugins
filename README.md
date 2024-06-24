@@ -2,11 +2,6 @@
 [<img src="https://img.shields.io/badge/repo-github-blue" alt="">](https://github.com/elhub/devxp-elhub-gradle-plugins)
 [<img src="https://img.shields.io/badge/issues-jira-orange" alt="">](https://jira.elhub.cloud/issues/?jql=project%20%3D%20%22Team%20Dev%22%20AND%20component%20%3D%20devxp-elhub-gradle-plugins%20AND%20status%20!%3D%20Done)
 [<img src="https://teamcity.elhub.cloud/app/rest/builds/buildType:(id:DevXp_DevXpElhubGradlePlugins_AutoRelease)/statusIcon" alt="">](https://teamcity.elhub.cloud/project/DevXp_DevXpElhubGradlePlugins?mode=builds#all-projects)
-[<img src="https://sonar.elhub.cloud/api/project_badges/measure?project=no.elhub.devxp%3Adevxp-elhub-gradle-plugins&metric=alert_status" alt="">](https://sonar.elhub.cloud/dashboard?id=no.elhub.devxp%3Adevxp-elhub-gradle-plugins)
-[<img src="https://sonar.elhub.cloud/api/project_badges/measure?project=no.elhub.devxp%3Adevxp-elhub-gradle-plugins&metric=ncloc" alt="">](https://sonar.elhub.cloud/dashboard?id=no.elhub.devxp%3Adevxp-elhub-gradle-plugins)
-[<img src="https://sonar.elhub.cloud/api/project_badges/measure?project=no.elhub.devxp%3Adevxp-elhub-gradle-plugins&metric=bugs" alt="">](https://sonar.elhub.cloud/dashboard?id=no.elhub.devxp%3Adevxp-elhub-gradle-plugins)
-[<img src="https://sonar.elhub.cloud/api/project_badges/measure?project=no.elhub.devxp%3Adevxp-elhub-gradle-plugins&metric=vulnerabilities" alt="">](https://sonar.elhub.cloud/dashboard?id=no.elhub.devxp%3Adevxp-elhub-gradle-plugins)
-[<img src="https://sonar.elhub.cloud/api/project_badges/measure?project=no.elhub.devxp%3Adevxp-elhub-gradle-plugins&metric=coverage" alt="">](https://sonar.elhub.cloud/dashboard?id=no.elhub.devxp%3Adevxp-elhub-gradle-plugins)
 
 ## About
 
@@ -59,6 +54,7 @@ suitable to your use-case. The plugins available are organized as follows:
 
 Applying the appropriate plugin automatically configures build file.
 OWASP dependency check comes with all the above plugins, You can run dependency-check by executing:
+
 ```html
 ./gradlew dependencyCheckAnalyze
 ```
@@ -67,15 +63,15 @@ OWASP dependency check comes with all the above plugins, You can run dependency-
 
 All the plugins can be tested using Gradle:
 
+```bash
     ./gradlew test
+```
 
 ## Contributing
 
-Contributing, issues and feature requests are welcome. See the
-[Contributing](https://code.elhub.cloud/projects/COM/repos/devxp-build-configuration/browse/CONTRIBUTING.md) file.
+Contributing, issues and feature requests are welcome. See the [Contributing](https://github.com/elhub/devxp/blob/main/.github/CONTRIBUTING) file.
 
 ## Owners
 
-This project is developed by [Elhub](https://elhub.no). For the specific development group responsible for this
-code, see the [CodeOwners](https://code.elhub.cloud/projects/COM/repos/devxp-build-configuration/browse/CODEOWNERS)
-file.
+This project is developed by [Elhub](https://www.elhub.no). For the specific development group responsible for this
+code, see the [Codeowners](https://github.com/elhub/devxp/blob/main/.github/CODEOWNERS) file.
