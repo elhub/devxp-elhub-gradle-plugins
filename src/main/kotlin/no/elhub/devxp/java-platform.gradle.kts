@@ -4,9 +4,7 @@
 package no.elhub.devxp
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import org.gradle.kotlin.dsl.maven
-import org.gradle.kotlin.dsl.repositories
-import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
+import java.util.Locale
 
 plugins {
     id("java-platform")
@@ -32,12 +30,11 @@ tasks.withType<Jar> {
     enabled = false
 }
 
-
 /*
  * Versions update checker
  */
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase(Locale.getDefault()).contains(it) }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
@@ -66,20 +63,23 @@ publishing {
 }
 
 artifactory {
-    setContextUrl(project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory")
-    publish(delegateClosureOf<PublisherConfig> {
-        repository(delegateClosureOf<groovy.lang.GroovyObject> {
-            setProperty("repoKey", project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local")
-            setProperty("username", project.findProperty("artifactoryUsername") ?: "nouser")
-            setProperty("password", project.findProperty("artifactoryPassword") ?: "nopass")
-        })
-        defaults(delegateClosureOf<groovy.lang.GroovyObject> {
-            invokeMethod("publications", "ALL_PUBLICATIONS")
-        })
-    })
-    resolve(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig> {
-        setProperty("repoKey", "repo")
-    })
+    clientConfig.isIncludeEnvVars = true
+
+    publish {
+        contextUrl = project.findProperty("artifactoryUri")?.toString() ?: "https://jfrog.elhub.cloud/artifactory"
+        repository {
+            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-plugins-dev-local"
+            username = project.findProperty("artifactoryUsername")?.toString() ?: "nouser" // The publisher username
+            password = project.findProperty("artifactoryPassword")?.toString() ?: "nopass" // The publisher password
+        }
+
+        defaults {
+            publications("mavenJava")
+            setPublishArtifacts(true)
+            setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
+            setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
 }
 
 tasks.withType<GenerateMavenPom> {

@@ -1,9 +1,6 @@
 import com.adarshr.gradle.testlogger.theme.ThemeType
-import groovy.lang.GroovyObject
-import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
-import org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig
-import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
-import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jfrog.gradle.plugin.artifactory.task.ArtifactoryTask
 import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
@@ -14,7 +11,7 @@ plugins {
     alias(libs.plugins.version.gradle.versions)
     id("jacoco")
     alias(libs.plugins.test.logger)
-    id("org.owasp.dependencycheck") version "7.4.4"
+    alias(libs.plugins.owasp.dependency.check)
     alias(libs.plugins.build.artifactory)
     id("maven-publish") apply true
 }
@@ -72,18 +69,31 @@ testlogger {
 }
 
 /*
+ * Versions dependency checker
+ */
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    rejectVersionIf {
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
+    }
+}
+
+/*
  * Dependency Check Plugin
  */
 dependencyCheck {
-    formats = listOf(
-        ReportGenerator.Format.JSON,
-        ReportGenerator.Format.HTML,
-    )
-    analyzers(delegateClosureOf<AnalyzerExtension> {
-        retirejs(delegateClosureOf<RetireJSExtension> {
+    formats = listOf(ReportGenerator.Format.JSON.toString(), ReportGenerator.Format.HTML.toString())
+    analyzers {
+        retirejs {
             enabled = false
-        })
-    })
+        }
+    }
 }
 
 tasks.withType<Analyze> {
@@ -121,29 +131,43 @@ fun AbstractAnalyze.setCustomConfiguration() {
 /*
  * Publishing
  */
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
+tasks {
+    named<ArtifactoryTask>("artifactoryPublish") {
+        skip = true
+    }
+}
+
+fun jvmProjects() = subprojects.filter { File(it.projectDir, "src").isDirectory }
+
+configure(jvmProjects()) {
+    configure<PublishingExtension> {
+        publications {
+            register<MavenPublication>("mavenJava") {
+                from(components.getByName("java"))
+                artifact(file("$rootDir/gradle.properties"))
+            }
         }
     }
 }
 
 artifactory {
-    setContextUrl(project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory")
-    publish(delegateClosureOf<PublisherConfig> {
-        repository(delegateClosureOf<GroovyObject> {
-            setProperty("repoKey", project.findProperty("artifactoryRepository") ?: "elhub-plugins-dev-local")
-            setProperty("username", project.findProperty("artifactoryUsername") ?: "nouser")
-            setProperty("password", project.findProperty("artifactoryPassword") ?: "nopass")
-        })
-        defaults(delegateClosureOf<GroovyObject> {
-            invokeMethod("publications", "ALL_PUBLICATIONS")
-        })
-    })
-    resolve(delegateClosureOf<ResolverConfig> {
-        setProperty("repoKey", "repo")
-    })
+    clientConfig.isIncludeEnvVars = true
+
+    publish {
+        contextUrl = project.findProperty("artifactoryUri")?.toString() ?: "https://jfrog.elhub.cloud/artifactory"
+        repository {
+            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-plugins-dev-local"
+            username = project.findProperty("artifactoryUsername")?.toString() ?: "nouser" // The publisher user name
+            password = project.findProperty("artifactoryPassword")?.toString() ?: "nopass" // The publisher password
+        }
+
+        defaults {
+            publications("mavenJava")
+            setPublishArtifacts(true)
+            setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
+            setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
 }
 
 tasks["publish"].dependsOn(tasks["artifactoryPublish"])
@@ -152,7 +176,8 @@ tasks["publish"].dependsOn(tasks["artifactoryPublish"])
  * TeamCity
  */
 tasks.register("teamCity", Exec::class) {
+    group = "teamcity"
     description = "Compile the TeamCity settings"
     workingDir(".teamcity")
-    commandLine("mvn", "compile")
+    commandLine("mvn", "teamcity-configs:generate")
 }

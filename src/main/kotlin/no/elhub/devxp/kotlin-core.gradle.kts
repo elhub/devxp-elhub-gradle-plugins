@@ -7,12 +7,11 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.owasp.dependencycheck.gradle.extension.AnalyzerExtension
-import org.owasp.dependencycheck.gradle.extension.RetireJSExtension
 import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
+import java.util.Locale
 
 plugins {
     kotlin("jvm")
@@ -43,7 +42,6 @@ tasks.withType<KotlinCompile>().configureEach {
         javaParameters = true
     }
 }
-
 
 /*
  * Test setup
@@ -79,7 +77,7 @@ testlogger {
  * Versions dependency checker
  */
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase(Locale.getDefault()).contains(it) }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
@@ -91,20 +89,16 @@ tasks.withType<DependencyUpdatesTask> {
     }
 }
 
-
 /*
  * Dependency Check PLugin
  */
 dependencyCheck {
-    formats = listOf(
-        ReportGenerator.Format.JSON.name,
-        ReportGenerator.Format.HTML.name,
-    )
-    analyzers(delegateClosureOf<AnalyzerExtension> {
-        retirejs(delegateClosureOf<RetireJSExtension> {
+    formats = listOf(ReportGenerator.Format.JSON.name, ReportGenerator.Format.HTML.name)
+    analyzers {
+        retirejs {
             enabled = false
-        })
-    })
+        }
+    }
 }
 
 tasks.withType<Analyze> {
@@ -139,7 +133,6 @@ fun AbstractAnalyze.setCustomConfiguration() {
     }
 }
 
-
 /*
  * Dokka
  */
@@ -155,12 +148,12 @@ tasks.withType<DokkaTask>().configureEach {
     }
 }
 
-
 /*
  * TeamCity
  */
 tasks.register("teamCity", Exec::class) {
-    description = "Compile the TeamCity settings"
+    group = "teamcity"
+    description = "Compile the TeamCity settings."
     workingDir(".teamcity")
-    commandLine("mvn","compile")
+    commandLine("mvn", "compile")
 }
