@@ -3,8 +3,6 @@
  */
 package no.elhub.devxp
 
-import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
-
 plugins {
     id("no.elhub.devxp.kotlin-core")
     id("com.jfrog.artifactory")
@@ -16,9 +14,6 @@ plugins {
 /*
  * Publishing
  */
-val publishUri = project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory/"
-val repository = project.findProperty("artifactoryRepository") ?: "elhub-mvn-dev-local"
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -28,21 +23,23 @@ publishing {
 }
 
 artifactory {
-    setContextUrl(project.findProperty("artifactoryUri") ?: "https://jfrog.elhub.cloud/artifactory")
-    publish(delegateClosureOf<PublisherConfig> {
-        repository(delegateClosureOf<groovy.lang.GroovyObject> {
-            setProperty("repoKey", project.findProperty("artifactoryRepository") ?: "elhub-bin-dev-local")
-            setProperty("username", project.findProperty("artifactoryUsername") ?: "nouser")
-            setProperty("password", project.findProperty("artifactoryPassword") ?: "nopass")
-        })
-        defaults(delegateClosureOf<groovy.lang.GroovyObject> {
-            invokeMethod("publications", "ALL_PUBLICATIONS")
-            setProperty("publishPom", false)
-        })
-    })
-    resolve(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig> {
-        setProperty("repoKey", "repo")
-    })
+    clientConfig.isIncludeEnvVars = true
+
+    publish {
+        contextUrl = project.findProperty("artifactoryUri")?.toString() ?: "https://jfrog.elhub.cloud/artifactory"
+        repository {
+            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-plugins-dev-local"
+            username = project.findProperty("artifactoryUsername")?.toString() ?: "nouser" // The publisher user name
+            password = project.findProperty("artifactoryPassword")?.toString() ?: "nopass" // The publisher password
+        }
+
+        defaults {
+            publications("mavenJava")
+            setPublishArtifacts(true)
+            setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
+            setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
 }
 
 tasks["publish"].dependsOn(tasks["artifactoryPublish"])
