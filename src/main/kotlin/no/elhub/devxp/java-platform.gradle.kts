@@ -68,7 +68,7 @@ artifactory {
     publish {
         contextUrl = project.findProperty("artifactoryUri")?.toString() ?: "https://jfrog.elhub.cloud/artifactory"
         repository {
-            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-plugins-dev-local"
+            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-mvn-dev-local"
             username = project.findProperty("artifactoryUsername")?.toString() ?: "nouser" // The publisher username
             password = project.findProperty("artifactoryPassword")?.toString() ?: "nopass" // The publisher password
         }
