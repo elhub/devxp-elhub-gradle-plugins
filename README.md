@@ -34,7 +34,7 @@ Then add the plugin you want to use in the plugins block of the build.gradle.kts
 
 ```kts
 plugins {
-    id("no.elhub.devxp.kotlin-XYZ") version "0.0.12"
+    id("no.elhub.devxp.kotlin-XYZ") version "0.2.1"
 }
 ```
 
@@ -50,7 +50,7 @@ suitable to your use-case. The plugins available are organized as follows:
 * `no.elhub.devxp.kotlin-library` - Configures the build file to pack jar files and deploy them to the appropriate maven
   repository.
 * `no.elhub.devxp.kotlin-service` - Configures the build file for light-weight API deployment.
-* `no.elhub.devxp.java-platform` - Configures the build file for java platform. 
+* `no.elhub.devxp.java-platform` - Configures the build file for java platform.
 
 Applying the appropriate plugin automatically configures build file.
 OWASP dependency check comes with all the above plugins, You can run dependency-check by executing:
