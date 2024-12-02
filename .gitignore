@@ -2,7 +2,9 @@
 # This is required to avoid megalinter spamming each repository with lint configurations
 .ansible-lint
 .checkmake.ini
+.ecrc
 .flake8
+.gitleaks.toml
 .golangci.yml
 .htmlhintrc
 .jsonlintrc

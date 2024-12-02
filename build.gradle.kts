@@ -1,6 +1,5 @@
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import org.jfrog.gradle.plugin.artifactory.task.ArtifactoryTask
 import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
@@ -131,12 +130,6 @@ fun AbstractAnalyze.setCustomConfiguration() {
 /*
  * Publishing
  */
-tasks {
-    named<ArtifactoryTask>("artifactoryPublish") {
-        skip = true
-    }
-}
-
 fun jvmProjects() = subprojects.filter { File(it.projectDir, "src").isDirectory }
 
 configure(jvmProjects()) {
