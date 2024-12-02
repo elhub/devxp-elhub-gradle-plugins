@@ -69,7 +69,7 @@ All the plugins can be tested using Gradle:
 
 ## Contributing
 
-Contributing, issues and feature requests are welcome. See the [Contributing](https://github.com/elhub/devxp/blob/main/.github/CONTRIBUTING) file.
+Contributing, issues and feature requests are welcome! See the [Contributing](https://github.com/elhub/devxp/blob/main/.github/CONTRIBUTING) file.
 
 ## Owners
 
