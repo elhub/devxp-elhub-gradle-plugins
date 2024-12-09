@@ -6,7 +6,7 @@ package no.elhub.devxp
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
@@ -35,10 +35,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "17"
-        javaParameters = true
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        javaParameters.set(true)
     }
 }
 
@@ -82,7 +82,7 @@ tasks.withType<DependencyUpdatesTask> {
 }
 
 /*
- * Dependency Check PLugin
+ * Dependency Check Plugin
  */
 dependencyCheck {
     formats = listOf(ReportGenerator.Format.JSON.name, ReportGenerator.Format.HTML.name)
@@ -143,9 +143,9 @@ tasks.withType<DokkaTask>().configureEach {
 /*
  * TeamCity
  */
-tasks.register("teamCity", Exec::class) {
+tasks.register("teamcityCheck", Exec::class) {
     group = "teamcity"
     description = "Compile the TeamCity settings."
     workingDir(".teamcity")
-    commandLine("mvn", "compile")
+    commandLine("mvn", "teamcity-configs:generate")
 }

@@ -3,8 +3,6 @@
  */
 package no.elhub.devxp
 
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-
 plugins {
     id("java-platform")
     id("com.github.ben-manes.versions")
@@ -30,30 +28,8 @@ tasks.withType<Jar> {
 }
 
 /*
- * Versions update checker
- */
-tasks.withType<DependencyUpdatesTask> {
-    rejectVersionIf {
-        isNonStable(candidate.version) && !isNonStable(currentVersion)
-    }
-}
-
-tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
-    checkConstraints = true
-    checkBuildEnvironmentConstraints = true
-}
-
-/*
  * Publishing
  */
-publishing {
-    publications {
-        create<MavenPublication>(project.name) {
-            from(components["javaPlatform"])
-        }
-    }
-}
-
 artifactory {
     clientConfig.isIncludeEnvVars = true
 
@@ -66,7 +42,7 @@ artifactory {
         }
 
         defaults {
-            publications("mavenJava")
+            publications("ALL_PUBLICATIONS")
             setPublishArtifacts(true)
             setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
             setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)

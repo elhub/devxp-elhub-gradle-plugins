@@ -1,6 +1,5 @@
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import org.jfrog.gradle.plugin.artifactory.task.ArtifactoryTask
 import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
@@ -131,38 +130,19 @@ fun AbstractAnalyze.setCustomConfiguration() {
 /*
  * Publishing
  */
-tasks {
-    named<ArtifactoryTask>("artifactoryPublish") {
-        skip = true
-    }
-}
-
-fun jvmProjects() = subprojects.filter { File(it.projectDir, "src").isDirectory }
-
-configure(jvmProjects()) {
-    configure<PublishingExtension> {
-        publications {
-            register<MavenPublication>("mavenJava") {
-                from(components.getByName("java"))
-                artifact(file("$rootDir/gradle.properties"))
-            }
-        }
-    }
-}
-
 artifactory {
     clientConfig.isIncludeEnvVars = true
 
     publish {
         contextUrl = project.findProperty("artifactoryUri")?.toString() ?: "https://jfrog.elhub.cloud/artifactory"
         repository {
-            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-plugins-dev-local"
+            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-mvn-dev-local"
             username = project.findProperty("artifactoryUsername")?.toString() ?: "nouser" // The publisher user name
             password = project.findProperty("artifactoryPassword")?.toString() ?: "nopass" // The publisher password
         }
 
         defaults {
-            publications("mavenJava")
+            publications("ALL_PUBLICATIONS")
             setPublishArtifacts(true)
             setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
             setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)
@@ -175,7 +155,7 @@ tasks["publish"].dependsOn(tasks["artifactoryPublish"])
 /*
  * TeamCity
  */
-tasks.register("teamCity", Exec::class) {
+tasks.register("teamcityCheck", Exec::class) {
     group = "teamcity"
     description = "Compile the TeamCity settings"
     workingDir(".teamcity")
