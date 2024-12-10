@@ -29,27 +29,19 @@ tasks.withType<Jar> {
 /*
  * Publishing
  */
-publishing {
-    publications {
-        create<MavenPublication>(project.name) {
-            from(components["versionCatalog"])
-        }
-    }
-}
-
 artifactory {
     clientConfig.isIncludeEnvVars = true
 
     publish {
         contextUrl = project.findProperty("artifactoryUri")?.toString() ?: "https://jfrog.elhub.cloud/artifactory"
         repository {
-            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-mvn-dev-local"
+            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-plugins-dev-local"
             username = project.findProperty("artifactoryUsername")?.toString() ?: "nouser" // The publisher username
             password = project.findProperty("artifactoryPassword")?.toString() ?: "nopass" // The publisher password
         }
 
         defaults {
-            publications("mavenJava")
+            publications("ALL_PUBLICATIONS")
             setPublishArtifacts(true)
             setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
             setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)

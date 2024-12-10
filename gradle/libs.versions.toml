@@ -4,13 +4,13 @@
 format.version = "1.1"
 
 [versions]
-commons-io = "2.17.0"
+commons-io = "2.18.0"
 dokka = "1.9.20"
 gradle-versions = "0.51.0"
 jfrog = "5.2.5"
 kotest = "5.9.1"
-kotlin = "2.0.21"
-owasp-dependency = "11.1.0"
+kotlin = "2.1.0"
+owasp-dependency = "11.1.1"
 shadow = "8.0.0"
 test-logger = "4.0.0"
 

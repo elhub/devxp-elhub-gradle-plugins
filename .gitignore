@@ -11,10 +11,12 @@
 .markdownlint.json
 .prettierrc.json
 .pylintrc
+.secretlintrc.json
 .stylelintrc.json
 .yamllint.yml
 pyproject.toml
 revive.toml
+trivy.yaml
 
 ### Ansible ###
 **/galaxy/*
