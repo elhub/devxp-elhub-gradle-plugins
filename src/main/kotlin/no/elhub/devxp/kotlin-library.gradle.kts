@@ -9,7 +9,7 @@ plugins {
     id("maven-publish")
 }
 
-/*
+/**
  * Publishing
  */
 artifactory {
@@ -33,3 +33,11 @@ artifactory {
 }
 
 tasks["publish"].dependsOn(tasks["artifactoryPublish"])
+
+/**
+ * Ensure sources and docs are published for libraries
+ */
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
