@@ -6,7 +6,7 @@ import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
 
 plugins {
-    `kotlin-dsl`
+    alias(libs.plugins.kotlin.dsl)
     alias(libs.plugins.version.gradle.versions)
     id("jacoco")
     alias(libs.plugins.test.logger)
@@ -17,7 +17,6 @@ plugins {
 
 repositories {
     maven(url = "https://jfrog.elhub.cloud/artifactory/elhub-mvn")
-    maven(url = "https://jfrog.elhub.cloud/artifactory/elhub-plugins")
 }
 
 group = "no.elhub.devxp"
