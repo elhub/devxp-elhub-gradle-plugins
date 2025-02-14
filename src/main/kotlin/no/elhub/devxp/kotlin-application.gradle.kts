@@ -7,7 +7,7 @@ plugins {
     id("no.elhub.devxp.kotlin-core")
     id("com.jfrog.artifactory")
     id("maven-publish")
-    id("com.github.johnrengelman.shadow")
+    id("com.gradleup.shadow")
     id("application")
 }
 
