@@ -3,6 +3,7 @@
 .ansible-lint
 .checkmake.ini
 .ecrc
+.editorconfig-checker.json
 .flake8
 .gitleaks.toml
 .golangci.yml
