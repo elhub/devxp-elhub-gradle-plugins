@@ -30,6 +30,14 @@ tasks.withType<Jar> {
 /*
  * Publishing
  */
+publishing {
+    publications {
+        create<MavenPublication>(project.name) {
+            from(components["javaPlatform"])
+        }
+    }
+}
+
 artifactory {
     clientConfig.isIncludeEnvVars = true
 
