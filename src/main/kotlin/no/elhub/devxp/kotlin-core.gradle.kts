@@ -91,6 +91,10 @@ dependencyCheck {
             enabled = false
         }
     }
+    nvd {
+        // Pick up the NVD_API_KEY from the environment
+        apiKey = System.getenv("NVD_API_KEY")
+    }
 }
 
 tasks.withType<Analyze> {
