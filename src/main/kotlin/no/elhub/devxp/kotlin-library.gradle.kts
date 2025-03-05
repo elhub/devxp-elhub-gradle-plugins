@@ -12,6 +12,14 @@ plugins {
 /**
  * Publishing
  */
+publishing {
+    publications {
+        create<MavenPublication>(rootProject.name) {
+            from(components["java"])
+        }
+    }
+}
+
 artifactory {
     clientConfig.isIncludeEnvVars = true
 
