@@ -14,7 +14,7 @@ plugins {
  */
 publishing {
     publications {
-        create<MavenPublication>(rootProject.name) {
+        create<MavenPublication>("maven") {
             from(components["java"])
         }
     }
