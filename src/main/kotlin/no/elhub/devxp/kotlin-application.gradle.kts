@@ -14,13 +14,9 @@ plugins {
 /*
  * Publishing
  */
-
 publishing {
     publications {
-        create<MavenPublication>(rootProject.name) {
-            groupId = group.toString()
-            artifactId = rootProject.name
-            version = version.toString()
+        create<MavenPublication>("maven") {
             from(components["java"])
         }
     }
