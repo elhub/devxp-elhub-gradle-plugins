@@ -94,6 +94,9 @@ dependencyCheck {
     nvd {
         // Pick up the NVD_API_KEY from the environment
         apiKey = System.getenv("NVD_API_KEY")
+
+        // Fetch vulnerability data from Elhub's OWASP instance
+        datafeedUrl = "https://owasp.elhub.cloud"
     }
 }
 
