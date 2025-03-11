@@ -87,6 +87,11 @@ tasks.withType<DependencyUpdatesTask> {
 dependencyCheck {
     formats = listOf(ReportGenerator.Format.JSON.name, ReportGenerator.Format.HTML.name)
     analyzers {
+
+        // Teamcity agents running .NET version too old for .NET Assembly Analyzer. Needs to be disabled until agents are updated
+        assemblyEnabled = false
+        // Needs to be disabled until "search.maven.org" is whitelisted in squid. Owasp 12.1.0 uses this to populate artifact metadata for better detection, but the effect should be minimal
+        centralEnabled = false
         retirejs {
             enabled = false
         }
@@ -96,7 +101,8 @@ dependencyCheck {
         apiKey = System.getenv("NVD_API_KEY")
 
         // Fetch vulnerability data from Elhub's OWASP instance
-        datafeedUrl = "https://owasp.elhub.cloud"
+        // Comment out as build config is not passing non_proxy_hosts variable which causing dependency check to fail
+        // datafeedUrl = "https://owasp.elhub.cloud"
     }
 }
 
