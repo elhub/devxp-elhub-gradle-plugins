@@ -1,7 +1,4 @@
 # devxp-elhub-gradle-plugins
-[<img src="https://img.shields.io/badge/repo-github-blue" alt="">](https://github.com/elhub/devxp-elhub-gradle-plugins)
-[<img src="https://img.shields.io/badge/issues-jira-orange" alt="">](https://jira.elhub.cloud/issues/?jql=project%20%3D%20%22Team%20Dev%22%20AND%20component%20%3D%20devxp-elhub-gradle-plugins%20AND%20status%20!%3D%20Done)
-[<img src="https://teamcity.elhub.cloud/app/rest/builds/buildType:(id:DevXp_DevXpElhubGradlePlugins_AutoRelease)/statusIcon" alt="">](https://teamcity.elhub.cloud/project/DevXp_DevXpElhubGradlePlugins?mode=builds#all-projects)
 
 ## About
 
