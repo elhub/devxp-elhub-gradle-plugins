@@ -54,7 +54,7 @@ tasks.withType<Test> {
 }
 
 jacoco {
-    toolVersion = "0.8.12" // Has to be the same as TeamCity
+    toolVersion = "0.8.13" // Has to be the same as TeamCity
 }
 
 tasks.test {
