@@ -4,7 +4,7 @@
 format.version = "1.1"
 
 [versions]
-commons-io = "2.18.0"
+commons-io = "2.19.0"
 dokka = "2.0.0"
 gradle-versions = "0.52.0"
 jfrog = "5.2.5"
