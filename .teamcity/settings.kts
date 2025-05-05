@@ -1,6 +1,6 @@
-import no.elhub.devxp.build.configuration.pipeline.ElhubProject.Companion.elhubProject
-import no.elhub.devxp.build.configuration.pipeline.constants.Group.DEVXP
 import no.elhub.devxp.build.configuration.pipeline.constants.ArtifactoryRepository
+import no.elhub.devxp.build.configuration.pipeline.constants.Group.DEVXP
+import no.elhub.devxp.build.configuration.pipeline.dsl.elhubProject
 import no.elhub.devxp.build.configuration.pipeline.jobs.gradleAutoRelease
 import no.elhub.devxp.build.configuration.pipeline.jobs.gradleVerify
 
