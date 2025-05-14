@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.owasp.dependency.check)
     alias(libs.plugins.build.artifactory)
     id("maven-publish") apply true
+    alias(libs.plugins.gradle.jib)
 }
 
 repositories {
@@ -27,6 +28,7 @@ group = "no.elhub.devxp"
 dependencies {
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.version.gradle.versions.plugin)
+    implementation(libs.gradle.jib.plugin)
     implementation(libs.test.logger.plugin)
     implementation(libs.build.jfrog.build.info)
     implementation(libs.build.shadow.plugin)
