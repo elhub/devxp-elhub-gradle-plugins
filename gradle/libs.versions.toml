@@ -10,7 +10,6 @@ gradle-versions = "0.52.0"
 jfrog = "5.2.5"
 kotest = "5.9.1"
 kotlin = "2.1.21"
-kotlin-dsl = "6.1.2"
 owasp-dependency = "12.1.1"
 shadow = "8.3.6"
 test-logger = "4.0.0"
@@ -33,7 +32,6 @@ gradle-jib-plugin = { group = "com.google.cloud.tools", name = "jib-gradle-plugi
 
 [plugins]
 build-artifactory = { id = "com.jfrog.artifactory", version.ref = "jfrog" }
-kotlin-dsl = { id = "org.gradle.kotlin.kotlin-dsl", version.ref = "kotlin-dsl" }
 test-logger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
 owasp-dependency-check = { id = "org.owasp.dependencycheck", version.ref = "owasp-dependency" }
 version-gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }

@@ -6,7 +6,7 @@ import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
 
 plugins {
-    alias(libs.plugins.kotlin.dsl)
+    `kotlin-dsl`
     alias(libs.plugins.version.gradle.versions)
     id("jacoco")
     alias(libs.plugins.test.logger)
