@@ -56,7 +56,7 @@ class KotlinCoreTest : DescribeSpec({
             val testTask = project.tasks.getByName("test") as org.gradle.api.tasks.testing.Test
 
             val jacocoExtension = project.extensions.getByType(JacocoPluginExtension::class.java)
-            jacocoExtension.toolVersion shouldBe "0.8.12"
+            jacocoExtension.toolVersion shouldBe "0.8.13"
 
             val jacocoTestReportTask = project.tasks.getByName("jacocoTestReport") as JacocoReport
             jacocoTestReportTask.dependsOn(testTask)
