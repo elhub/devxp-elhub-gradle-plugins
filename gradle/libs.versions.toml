@@ -11,9 +11,12 @@ jfrog = "5.2.5"
 kotest = "5.9.1"
 kotlin = "2.1.20"
 kotlin-dsl = "6.1.2"
+kotlin = "2.1.21"
+kotlin-dsl = "5.2.0"
 owasp-dependency = "12.1.1"
 shadow = "8.3.6"
 test-logger = "4.0.0"
+gradle-jib = "3.4.5"
 
 [libraries]
 apache-commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
@@ -25,6 +28,7 @@ test-logger-plugin = { group = "com.adarshr", name = "gradle-test-logger-plugin"
 test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 version-gradle-versions-plugin = { group = "com.github.ben-manes", name = "gradle-versions-plugin", version.ref = "gradle-versions" }
 owasp-dependency-check = { group = "org.owasp", name = "dependency-check-gradle", version.ref = "owasp-dependency" }
+gradle-jib-plugin = { group = "com.google.cloud.tools", name = "jib-gradle-plugin", version.ref = "gradle-jib" }
 
 [bundles]
 
@@ -35,3 +39,4 @@ kotlin-dsl = { id = "org.gradle.kotlin.kotlin-dsl", version.ref = "kotlin-dsl" }
 test-logger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
 owasp-dependency-check = { id = "org.owasp.dependencycheck", version.ref = "owasp-dependency" }
 version-gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
+gradle-jib = { id = "com.google.cloud.tools.jib", version.ref = "gradle-jib" }

@@ -8,6 +8,7 @@ plugins {
     id("com.jfrog.artifactory")
     id("maven-publish")
     id("application")
+    id("com.google.cloud.tools.jib")
 }
 
 /*
