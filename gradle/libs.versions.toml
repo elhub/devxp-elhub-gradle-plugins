@@ -11,7 +11,7 @@ jfrog = "5.2.5"
 kotest = "5.9.1"
 kotlin = "2.1.21"
 owasp-dependency = "12.1.3"
-shadow = "8.3.6"
+shadow = "8.3.7"
 test-logger = "4.0.0"
 gradle-jib = "3.4.5"
 
