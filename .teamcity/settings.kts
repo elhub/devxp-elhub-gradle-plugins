@@ -9,6 +9,7 @@ elhubProject(DEVXP, "devxp-elhub-gradle-plugins") {
         sequential {
             val artifacts = gradleVerify {
                 analyzeDependencies = false
+                enablePublishMetrics = true
             }
             gradleAutoRelease(artifacts = listOf(artifacts)) {
                 repository = ArtifactoryRepository.ELHUB_PLUGINS_RELEASE_LOCAL

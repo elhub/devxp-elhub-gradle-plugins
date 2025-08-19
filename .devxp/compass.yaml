@@ -1,0 +1,30 @@
+---
+name: devxp-elhub-gradle-plugins
+slug: devxp-elhub-gradle-plugins
+id: "ari:cloud:compass:dd0efeb0-2368-4bf7-b77b-9402345ecfe5:component/4290245e-438e-4548-ba7a-a603f0c73614/c8bd956a-3fc2-4e30-a393-b8fee750af86"
+description: |-
+  Plugins for setting up Elhub gradle projects with sensible defaults and configurations.
+typeId: LIBRARY
+ownerId: "ari:cloud:identity::team/e6119202-0d8b-4174-bf04-7f1421525c1e"
+fields:
+  tier: 4
+  lifecycle: Active
+configVersion: 1
+links:
+  - name: "GitHub Repository"
+    type: REPOSITORY
+    url: "https://github.com/elhub/devxp-elhub-gradle-plugins"
+  - name: "Jira Project"
+    type: PROJECT
+    url: "https://elhub.atlassian.net/browse/TDX"
+  - name: "Sonar Dashboard"
+    type: DASHBOARD
+    url: "https://sonar.elhub.cloud/dashboard?id=no.elhub.devxp.devxp-elhub-gradle-plugins&codeScope=overall"
+  - name: Developer Docs
+    type: OTHER_LINK
+    url: "https://docs.elhub.cloud/enabling-systems/devxp/devxp-elhub-gradle-plugins/index.html"
+relationships: {}
+customFields: null
+labels:
+  - "language:kotlin"
+  - "source:github"
