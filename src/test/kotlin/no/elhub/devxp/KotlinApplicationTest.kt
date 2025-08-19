@@ -1,9 +1,11 @@
 package no.elhub.devxp
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.gradle.testfixtures.ProjectBuilder
+import org.gradle.testkit.runner.UnexpectedBuildFailure
 
 class KotlinApplicationTest : DescribeSpec({
     val testInstance = TestInstance()
@@ -69,6 +71,15 @@ class KotlinApplicationTest : DescribeSpec({
         optionsExpected.forEach { option ->
             it("The output should list the $option task") {
                 result.output shouldContain "$option -"
+            }
+        }
+    }
+
+    describe("When the project publishes artifacts") {
+
+        it("should fail on the artifactoryPublish task if host does not exist") {
+            shouldThrow<UnexpectedBuildFailure> {
+                testInstance.runTask("artifactoryPublish")
             }
         }
     }

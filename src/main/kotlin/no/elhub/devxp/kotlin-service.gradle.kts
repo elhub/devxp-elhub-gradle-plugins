@@ -28,7 +28,7 @@ artifactory {
         defaults {
             publications("ALL_PUBLICATIONS")
             setPublishArtifacts(true)
-            setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
+            // setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
             setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)
         }
     }
