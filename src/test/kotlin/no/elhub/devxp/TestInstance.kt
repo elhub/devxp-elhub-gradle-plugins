@@ -28,11 +28,11 @@ class TestInstance {
         )
     }
 
-    fun runTask(task: String): BuildResult =
+    fun runTask(task: String, vararg args: String): BuildResult =
         GradleRunner
             .create()
             .withProjectDir(projectDir.toFile())
-            .withArguments(task, "--stacktrace")
+            .withArguments(listOf(task, *args, "--stacktrace"))
             .withPluginClasspath()
             .build()
 
