@@ -49,7 +49,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
         events("passed", "skipped", "failed")
-        showStandardStreams = true
     }
 }
 
@@ -70,6 +69,10 @@ tasks.jacocoTestReport {
 
 testlogger {
     theme = ThemeType.MOCHA
+    showStandardStreams = true
+    showPassedStandardStreams = false
+    showSkippedStandardStreams = false
+    showFailedStandardStreams = true
 }
 
 /*
@@ -87,7 +90,6 @@ tasks.withType<DependencyUpdatesTask> {
 dependencyCheck {
     formats = listOf(ReportGenerator.Format.JSON.name, ReportGenerator.Format.HTML.name)
     analyzers {
-
         // Teamcity agents running .NET version too old for .NET Assembly Analyzer. Needs to be disabled until agents are updated
         assemblyEnabled = false
         // Needs to be disabled until "search.maven.org" is whitelisted in squid. Owasp 12.1.0 uses this to populate artifact metadata for better detection, but the effect should be minimal
@@ -99,7 +101,6 @@ dependencyCheck {
     nvd {
         // Pick up the NVD_API_KEY from the environment
         apiKey = System.getenv("NVD_API_KEY")
-
         // Fetch vulnerability data from Elhub's OWASP instance
         // Comment out as build config is not passing non_proxy_hosts variable which causing dependency check to fail
         // datafeedUrl = "https://owasp.elhub.cloud"
