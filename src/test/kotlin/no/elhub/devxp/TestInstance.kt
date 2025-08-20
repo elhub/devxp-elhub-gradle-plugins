@@ -23,6 +23,7 @@ class TestInstance {
             """
                 kotlin.code.style=official
                 version=0.0.0
+                artifactoryUri=http://jfrog.null.void/artifactory
             """
         )
     }
