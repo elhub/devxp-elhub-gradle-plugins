@@ -28,11 +28,9 @@ version-gradle-versions-plugin = { group = "com.github.ben-manes", name = "gradl
 owasp-dependency-check = { group = "org.owasp", name = "dependency-check-gradle", version.ref = "owasp-dependency" }
 gradle-jib-plugin = { group = "com.google.cloud.tools", name = "jib-gradle-plugin", version.ref = "gradle-jib" }
 
-[bundles]
-
-
 [plugins]
 build-artifactory = { id = "com.jfrog.artifactory", version.ref = "jfrog" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 gradle-jib = { id = "com.google.cloud.tools.jib", version.ref = "gradle-jib" }
 maven-publish = { id = "maven-publish" }
 owasp-dependency-check = { id = "org.owasp.dependencycheck", version.ref = "owasp-dependency" }
