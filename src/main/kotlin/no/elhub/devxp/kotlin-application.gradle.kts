@@ -3,6 +3,8 @@
  */
 package no.elhub.devxp
 
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar.Companion.shadowJar
+
 plugins {
     id("no.elhub.devxp.kotlin-core")
     id("com.jfrog.artifactory")
@@ -16,11 +18,12 @@ plugins {
  */
 publishing {
     publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
+        create<MavenPublication>("shadow") {
+            from(components["shadow"])
         }
     }
 }
+
 artifactory {
     clientConfig.isIncludeEnvVars = true
 
@@ -35,7 +38,6 @@ artifactory {
         defaults {
             publications("ALL_PUBLICATIONS")
             setPublishArtifacts(true)
-            // setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
             setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)
         }
     }
@@ -49,12 +51,19 @@ tasks["publish"].dependsOn(tasks["artifactoryPublish"])
 val applicationMainClass: String by project
 
 application {
-    mainClass.set(applicationMainClass)
+    mainClass = applicationMainClass
 }
 
-val shadowJar by tasks.getting(com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar::class) {
+tasks.shadowJar {
     archiveBaseName.set(rootProject.name)
     archiveClassifier.set("")
+    manifest {
+        attributes(
+            "Main-Class" to applicationMainClass
+        )
+    }
+    mergeServiceFiles()
+    minimize()
 }
 
-tasks["assemble"].dependsOn(tasks["shadowJar"])
+tasks["assemble"].dependsOn(tasks.shadowJar)
