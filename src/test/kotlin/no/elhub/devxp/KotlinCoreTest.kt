@@ -85,6 +85,34 @@ class KotlinCoreTest : DescribeSpec({
         }
     }
 
+    describe("When jacocoTestReport is run with this plugin") {
+
+        it("should run test and jacocoTestReport tasks") {
+            val result = testInstance.runTask("jacocoTestReport", "--dry-run")
+            result.output shouldContain ":test"
+            result.output shouldContain ":jacocoTestReport"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+    }
+
+    describe("When dependencyCheckAnalyze is run with this plugin") {
+
+        it("should exercise the dependency check") {
+            val result = testInstance.runTask("dependencyCheckAnalyze", "--dry-run")
+            result.output shouldContain ":dependencyCheckAnalyze"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+    }
+
+    describe("When teamCityCheck is run with this plugin") {
+
+        it("should exercise the dependency check") {
+            val result = testInstance.runTask("teamcityCheck", "--dry-run")
+            result.output shouldContain ":teamcityCheck"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+    }
+
     afterSpec {
         testInstance.dispose()
     }

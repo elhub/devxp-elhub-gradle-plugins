@@ -7,7 +7,6 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
@@ -90,7 +89,8 @@ dependencyCheck {
 
         // Teamcity agents running .NET version too old for .NET Assembly Analyzer. Needs to be disabled until agents are updated
         assemblyEnabled = false
-        // Needs to be disabled until "search.maven.org" is whitelisted in squid. Owasp 12.1.0 uses this to populate artifact metadata for better detection, but the effect should be minimal
+        // Needs to be disabled until "search.maven.org" is whitelisted in squid. Owasp 12.1.0 uses this to populate artifact
+        // metadata for better detection, but the effect should be minimal
         centralEnabled = false
         retirejs {
             enabled = false
@@ -112,30 +112,6 @@ tasks.withType<Analyze> {
 
 tasks.withType<Aggregate> {
     setCustomConfiguration()
-}
-
-fun AbstractAnalyze.setCustomConfiguration() {
-    doFirst {
-        val proxyHost = project.findProperty("proxyHost")
-        val proxyPort = project.findProperty("proxyPort")
-        val nonProxyHosts = project.findProperty("nonProxyHosts")
-        listOf("http", "https").forEach {
-            if (proxyHost != null && proxyPort != null) {
-                System.setProperty("$it.proxyHost", proxyHost.toString())
-                System.setProperty("$it.proxyPort", proxyPort.toString())
-            }
-            if (nonProxyHosts != null) {
-                System.setProperty("$it.nonProxyHosts", nonProxyHosts.toString())
-            }
-        }
-    }
-    doLast {
-        listOf("http", "https").forEach {
-            System.clearProperty("$it.proxyPort")
-            System.clearProperty("$it.proxyHost")
-            System.clearProperty("$it.nonProxyHosts")
-        }
-    }
 }
 
 /*
