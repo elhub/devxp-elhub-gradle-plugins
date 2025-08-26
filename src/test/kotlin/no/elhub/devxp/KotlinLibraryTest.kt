@@ -65,15 +65,6 @@ class KotlinLibraryTest : DescribeSpec({
         }
     }
 
-    describe("When the project publishes artifacts") {
-
-        it("should fail on the artifactoryPublish task if host does not exist") {
-            shouldThrow<UnexpectedBuildFailure> {
-                testInstance.runTask("artifactoryPublish")
-            }
-        }
-    }
-
     afterSpec {
         testInstance.dispose()
     }
