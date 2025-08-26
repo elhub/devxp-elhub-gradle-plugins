@@ -1,11 +1,9 @@
 package no.elhub.devxp
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.gradle.testfixtures.ProjectBuilder
-import org.gradle.testkit.runner.UnexpectedBuildFailure
 
 class KotlinServiceTest : DescribeSpec({
     val testInstance = TestInstance()
