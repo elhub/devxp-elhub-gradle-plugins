@@ -7,7 +7,6 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
@@ -114,30 +113,6 @@ tasks.withType<Analyze> {
 
 tasks.withType<Aggregate> {
     setCustomConfiguration()
-}
-
-fun AbstractAnalyze.setCustomConfiguration() {
-    doFirst {
-        val proxyHost = project.findProperty("proxyHost")
-        val proxyPort = project.findProperty("proxyPort")
-        val nonProxyHosts = project.findProperty("nonProxyHosts")
-        listOf("http", "https").forEach {
-            if (proxyHost != null && proxyPort != null) {
-                System.setProperty("$it.proxyHost", proxyHost.toString())
-                System.setProperty("$it.proxyPort", proxyPort.toString())
-            }
-            if (nonProxyHosts != null) {
-                System.setProperty("$it.nonProxyHosts", nonProxyHosts.toString())
-            }
-        }
-    }
-    doLast {
-        listOf("http", "https").forEach {
-            System.clearProperty("$it.proxyPort")
-            System.clearProperty("$it.proxyHost")
-            System.clearProperty("$it.nonProxyHosts")
-        }
-    }
 }
 
 /*
