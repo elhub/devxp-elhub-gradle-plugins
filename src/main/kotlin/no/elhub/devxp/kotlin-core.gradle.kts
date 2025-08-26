@@ -92,7 +92,8 @@ dependencyCheck {
     analyzers {
         // Teamcity agents running .NET version too old for .NET Assembly Analyzer. Needs to be disabled until agents are updated
         assemblyEnabled = false
-        // Needs to be disabled until "search.maven.org" is whitelisted in squid. Owasp 12.1.0 uses this to populate artifact metadata for better detection, but the effect should be minimal
+        // Needs to be disabled until "search.maven.org" is whitelisted in squid. Owasp 12.1.0 uses this to populate artifact
+        // metadata for better detection, but the effect should be minimal
         centralEnabled = false
         retirejs {
             enabled = false
