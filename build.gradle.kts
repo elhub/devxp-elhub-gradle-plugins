@@ -1,5 +1,8 @@
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
@@ -8,12 +11,13 @@ import org.owasp.dependencycheck.reporting.ReportGenerator
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.version.gradle.versions)
-    id("jacoco")
+    alias(libs.plugins.test.jacoco)
     alias(libs.plugins.test.logger)
     alias(libs.plugins.owasp.dependency.check)
     alias(libs.plugins.build.artifactory)
-    id("maven-publish") apply true
+    alias(libs.plugins.maven.publish) apply true
     alias(libs.plugins.gradle.jib)
+    alias(libs.plugins.dokka)
 }
 
 repositories {
@@ -45,12 +49,11 @@ tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
         events("passed", "skipped", "failed")
-        showStandardStreams = true
     }
 }
 
 jacoco {
-    toolVersion = "0.8.13" // Has to be the same as TeamCity
+    toolVersion = libs.versions.jacoco.get().toString()
 }
 
 tasks.test {
@@ -66,6 +69,10 @@ tasks.jacocoTestReport {
 
 testlogger {
     theme = ThemeType.MOCHA
+    showStandardStreams = true
+    showPassedStandardStreams = false
+    showSkippedStandardStreams = false
+    showFailedStandardStreams = true
 }
 
 /*
@@ -79,9 +86,14 @@ fun isNonStable(version: String): Boolean {
 }
 
 tasks.withType<DependencyUpdatesTask> {
+    notCompatibleWithConfigurationCache("Unsupported task invocations.")
     rejectVersionIf {
         isNonStable(candidate.version) && !isNonStable(currentVersion)
     }
+}
+
+tasks.named("dependencyUpdates") {
+    notCompatibleWithConfigurationCache("Unsupported task invocations.")
 }
 
 /*
@@ -145,13 +157,27 @@ artifactory {
         defaults {
             publications("ALL_PUBLICATIONS")
             setPublishArtifacts(true)
-            setPublishPom(true) // Publish generated POM files to Artifactory (true by default)
-            setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)
+            setPublishIvy(false)
         }
     }
 }
 
 tasks["publish"].dependsOn(tasks["artifactoryPublish"])
+
+/*
+ * Dokka
+ */
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets {
+        named("main") {
+            // Files containing module documentation
+            // Note files must exist (missing files break the build)
+            includes.from("module.md")
+            // Emit warnings for undocumented code
+            reportUndocumented.set(true)
+        }
+    }
+}
 
 /*
  * TeamCity

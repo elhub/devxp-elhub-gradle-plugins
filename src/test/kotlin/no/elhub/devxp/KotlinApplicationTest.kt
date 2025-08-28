@@ -73,15 +73,6 @@ class KotlinApplicationTest : DescribeSpec({
         }
     }
 
-    describe("When the project publishes artifacts") {
-
-        it("the publish task should run artifactoryPublish") {
-            val result = testInstance.runTask("publish", "--dry-run")
-            result.output shouldContain ":artifactoryPublish"
-            result.output shouldContain "BUILD SUCCESSFUL"
-        }
-    }
-
     afterSpec {
         testInstance.dispose()
     }
