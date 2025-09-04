@@ -1,11 +1,11 @@
 package no.elhub.devxp
 
-import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.gradle.testfixtures.ProjectBuilder
 
-class KotlinServiceTest : DescribeSpec({
+class KotlinServiceTest : FunSpec({
     val testInstance = TestInstance()
 
     beforeSpec {
@@ -18,7 +18,7 @@ class KotlinServiceTest : DescribeSpec({
         )
     }
 
-    describe("When kotlin-application is built") {
+    context("When kotlin-application is built") {
 
         val project = ProjectBuilder.builder().build()
         project.pluginManager.apply("no.elhub.devxp.kotlin-service")
@@ -34,13 +34,13 @@ class KotlinServiceTest : DescribeSpec({
             )
 
         pluginsIncluded.forEach { plugin ->
-            it("The project should include the $plugin plugin") {
+            test("The project should include the $plugin plugin") {
                 project.plugins.hasPlugin(plugin) shouldBe true
             }
         }
     }
 
-    describe("When gradle tasks is run with this plugin") {
+    context("When gradle tasks is run with this plugin") {
 
         val optionsExpected =
             arrayOf<String>(
@@ -53,7 +53,7 @@ class KotlinServiceTest : DescribeSpec({
         val result = testInstance.runTask("tasks")
 
         optionsExpected.forEach { option ->
-            it("The output should list the $option task") {
+            test("The output should list the $option task") {
                 result.output shouldContain "$option -"
             }
         }

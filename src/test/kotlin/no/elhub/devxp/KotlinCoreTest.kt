@@ -1,13 +1,13 @@
 package no.elhub.devxp
 
-import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
-class KotlinCoreTest : DescribeSpec({
+class KotlinCoreTest : FunSpec({
     val testInstance = TestInstance()
 
     beforeSpec {
@@ -20,7 +20,7 @@ class KotlinCoreTest : DescribeSpec({
         )
     }
 
-    describe("When gradle project is built") {
+    context("When gradle project is built") {
 
         val project = ProjectBuilder.builder().build()
         project.pluginManager.apply("no.elhub.devxp.kotlin-core")
@@ -36,23 +36,23 @@ class KotlinCoreTest : DescribeSpec({
             )
 
         pluginsIncluded.forEach { plugin ->
-            it("should include the $plugin plugin") {
+            test("should include the $plugin plugin") {
                 project.plugins.hasPlugin(plugin) shouldBe true
             }
         }
 
-        it("should configure repository URL correctly") {
+        test("should configure repository URL correctly") {
             val repository = project.repositories.first()
             repository.name shouldBe "maven"
         }
 
-        it("should configure Java compile options correctly") {
+        test("should configure Java compile options correctly") {
             val javaExtension = project.extensions.getByName("java") as org.gradle.api.plugins.JavaPluginExtension
             javaExtension.sourceCompatibility shouldBe org.gradle.api.JavaVersion.VERSION_17
             javaExtension.targetCompatibility shouldBe org.gradle.api.JavaVersion.VERSION_17
         }
 
-        it("should configure test logging and Jacoco correctly") {
+        test("should configure test logging and Jacoco correctly") {
             val testTask = project.tasks.getByName("test") as org.gradle.api.tasks.testing.Test
 
             val jacocoExtension = project.extensions.getByType(JacocoPluginExtension::class.java)
@@ -64,7 +64,7 @@ class KotlinCoreTest : DescribeSpec({
         }
     }
 
-    describe("When gradle tasks is run with this project") {
+    context("When gradle tasks is run with this project") {
 
         val optionsExpected =
             arrayOf<String>(
@@ -79,15 +79,15 @@ class KotlinCoreTest : DescribeSpec({
         val result = testInstance.runTask("tasks")
 
         optionsExpected.forEach { option ->
-            it("The output should list the $option task") {
+            test("The output should list the $option task") {
                 result.output shouldContain "$option -"
             }
         }
     }
 
-    describe("When jacocoTestReport is run with this plugin") {
+    context("When jacocoTestReport is run with this plugin") {
 
-        it("should run test and jacocoTestReport tasks") {
+        test("should run test and jacocoTestReport tasks") {
             val result = testInstance.runTask("jacocoTestReport", "--dry-run")
             result.output shouldContain ":test"
             result.output shouldContain ":jacocoTestReport"
@@ -95,18 +95,18 @@ class KotlinCoreTest : DescribeSpec({
         }
     }
 
-    describe("When dependencyCheckAnalyze is run with this plugin") {
+    context("When dependencyCheckAnalyze is run with this plugin") {
 
-        it("should exercise the dependency check") {
+        test("should exercise the dependency check") {
             val result = testInstance.runTask("dependencyCheckAnalyze", "--dry-run")
             result.output shouldContain ":dependencyCheckAnalyze"
             result.output shouldContain "BUILD SUCCESSFUL"
         }
     }
 
-    describe("When teamCityCheck is run with this plugin") {
+    context("When teamCityCheck is run with this plugin") {
 
-        it("should exercise the dependency check") {
+        test("should exercise the dependency check") {
             val result = testInstance.runTask("teamcityCheck", "--dry-run")
             result.output shouldContain ":teamcityCheck"
             result.output shouldContain "BUILD SUCCESSFUL"
