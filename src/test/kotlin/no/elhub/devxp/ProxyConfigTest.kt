@@ -1,15 +1,15 @@
 package no.elhub.devxp
 
-import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import org.gradle.testfixtures.ProjectBuilder
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 
-class ProxyConfigTest : DescribeSpec({
+class ProxyConfigTest : FunSpec({
 
-    describe("setCustomConfiguration") {
+    context("setCustomConfiguration") {
 
-        it("should set proxy system properties when project properties are present") {
+        test("should set proxy system properties when project properties are present") {
             val project = ProjectBuilder.builder().build()
             project.extensions.extraProperties.set("proxyHost", "proxy.example.com")
             project.extensions.extraProperties.set("proxyPort", "8080")
@@ -39,7 +39,7 @@ class ProxyConfigTest : DescribeSpec({
             System.getProperty("https.nonProxyHosts") shouldBe null
         }
 
-        it("should not set proxy host/port when only one is present") {
+        test("should not set proxy host/port when only one is present") {
             val project = ProjectBuilder.builder().build()
             project.extensions.extraProperties.set("proxyHost", "proxy.example.com")
             project.extensions.extraProperties.set("nonProxyHosts", "localhost")
