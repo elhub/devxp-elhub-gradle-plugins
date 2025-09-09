@@ -1,7 +1,7 @@
-import no.elhub.devxp.build.configuration.pipeline.constants.ArtifactoryRepository
+import no.elhub.devxp.build.configuration.pipeline.constants.ArtifactoryRepository.ELHUB_PLUGINS_RELEASE_LOCAL
 import no.elhub.devxp.build.configuration.pipeline.constants.Group.DEVXP
 import no.elhub.devxp.build.configuration.pipeline.dsl.elhubProject
-import no.elhub.devxp.build.configuration.pipeline.jobs.gradleAutoRelease
+import no.elhub.devxp.build.configuration.pipeline.jobs.gradlePublish
 import no.elhub.devxp.build.configuration.pipeline.jobs.gradleVerify
 
 elhubProject(DEVXP, "devxp-elhub-gradle-plugins") {
@@ -11,8 +11,8 @@ elhubProject(DEVXP, "devxp-elhub-gradle-plugins") {
                 analyzeDependencies = false
                 enablePublishMetrics = true
             }
-            gradleAutoRelease(artifacts = listOf(artifacts)) {
-                repository = ArtifactoryRepository.ELHUB_PLUGINS_RELEASE_LOCAL
+            gradlePublish(artifacts = listOf(artifacts)) {
+                repository = ELHUB_PLUGINS_RELEASE_LOCAL
             }
         }
     }
