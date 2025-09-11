@@ -1,4 +1,4 @@
-# devxp-elhub-gradle-plugins
+# 🐘 devxp-elhub-gradle-plugins 🐘
 
 ## About
 
