@@ -106,6 +106,9 @@ dependencyCheck {
             enabled = false
         }
     }
+    nvd {
+        datafeedUrl = "https://owasp.elhub.cloud"
+    }
 }
 
 tasks.withType<Analyze> {
