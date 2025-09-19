@@ -103,7 +103,7 @@ dependencyCheck {
         apiKey = System.getenv("NVD_API_KEY")
         // Fetch vulnerability data from Elhub's OWASP instance
         // Comment out as build config is not passing non_proxy_hosts variable which causing dependency check to fail
-        // datafeedUrl = "https://owasp.elhub.cloud"
+        datafeedUrl = "https://owasp.elhub.cloud"
     }
 }
 
