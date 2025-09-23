@@ -105,6 +105,10 @@ dependencyCheck {
         retirejs {
             enabled = false
         }
+        ossIndex {
+            username = System.getenv("SONATYPE_USERNAME")
+            password = System.getenv("SONATYPE_API_TOKEN")
+        }
     }
     nvd {
         datafeedUrl = "https://owasp.elhub.cloud"
