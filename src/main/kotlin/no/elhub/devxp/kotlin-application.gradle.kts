@@ -65,4 +65,14 @@ tasks.shadowJar {
     mergeServiceFiles()
 }
 
-tasks["assemble"].dependsOn(tasks.shadowJar)
+// Shadow has its own tasks for this, so we use those instead
+listOf("jar", "distTar", "distZip", "startScripts").forEach {
+    tasks.named(it) {
+        enabled = false
+    }
+}
+
+// This ensures that the jar is built when we run ./gradlew build, and is therefore available when we run publish afterward
+tasks.assemble {
+    dependsOn(tasks.shadowJar)
+}
