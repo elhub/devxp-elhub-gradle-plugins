@@ -65,4 +65,6 @@ tasks.shadowJar {
     mergeServiceFiles()
 }
 
-tasks["assemble"].dependsOn(tasks.shadowJar)
+listOf("assemble", "distZip", "distTar", "startScripts").forEach {
+    tasks[it].dependsOn(tasks.shadowJar)
+}
