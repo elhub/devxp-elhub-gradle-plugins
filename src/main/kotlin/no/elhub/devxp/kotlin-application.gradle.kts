@@ -63,7 +63,6 @@ tasks.shadowJar {
         )
     }
     mergeServiceFiles()
-    minimize()
 }
 
 tasks["assemble"].dependsOn(tasks.shadowJar)
