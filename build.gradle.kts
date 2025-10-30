@@ -7,6 +7,8 @@ import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
+import org.w3c.dom.Document
+import javax.xml.parsers.DocumentBuilderFactory
 
 plugins {
     `kotlin-dsl`
@@ -56,15 +58,71 @@ jacoco {
     toolVersion = libs.versions.jacoco.get().toString()
 }
 
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
-
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
     reports {
         xml.required.set(true)
     }
+}
+
+fun parseJacocoXml(file: File): Document {
+    val factory = DocumentBuilderFactory.newInstance()
+    factory.isValidating = false
+    factory.isNamespaceAware = true
+    factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false) // Prevent external DTD fetching
+    val builder = factory.newDocumentBuilder()
+    return builder.parse(file)
+}
+
+tasks.register("printCoverage") {
+    doLast {
+        var totalCovered = 0.toBigInteger()
+        var totalMissed = 0.toBigInteger()
+
+        val projectsToCheck = if (subprojects.isEmpty()) listOf(project) else subprojects
+
+        projectsToCheck.forEach { proj ->
+            val reportFile = proj.file("build/reports/jacoco/test/jacocoTestReport.xml")
+            if (!reportFile.exists()) return@forEach
+
+            val doc = parseJacocoXml(reportFile)
+            val counters = doc.getElementsByTagName("counter")
+
+            for (i in 0 until counters.length) {
+                val node = counters.item(i)
+                val attrs = node.attributes
+                val type = attrs.getNamedItem("type").nodeValue
+                if (type == "INSTRUCTION") {
+                    val covered = attrs.getNamedItem("covered").nodeValue.toBigInteger()
+                    val missed = attrs.getNamedItem("missed").nodeValue.toBigInteger()
+                    totalCovered += covered
+                    totalMissed += missed
+                }
+            }
+        }
+
+        val total = totalCovered + totalMissed
+        val coveragePercent = if (total > BigInteger.ZERO) {
+            ((totalCovered * 100.toBigInteger()) / total).toInt()
+        } else {
+            0
+        }
+
+        val reset = "\u001B[0m"
+        val color = when {
+            coveragePercent >= 80 -> "\u001B[32m"
+            else -> "\u001B[31m"
+        }
+        println("$color═════════════════════════════════════════$reset")
+        println("$color> JaCoCO Test Report $reset")
+        println("$color> Instruction Coverage: $coveragePercent% $reset")
+        println("$color═════════════════════════════════════════$reset")
+    }
+}
+
+tasks.test {
+    // Tests are always followed by jacoco report and printCoverage
+    finalizedBy(tasks.jacocoTestReport, tasks["printCoverage"])
 }
 
 testlogger {
