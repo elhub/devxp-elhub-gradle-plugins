@@ -102,6 +102,13 @@ class KotlinCoreTest : FunSpec({
             result.output shouldContain ":printCoverage"
             result.output shouldContain "BUILD SUCCESSFUL"
         }
+
+        test("printCoverage also include jacocoTestReport and test") {
+            val result = testInstance.runTask("printCoverage", "--dry-run")
+            result.output shouldContain ":test"
+            result.output shouldContain ":jacocoTestReport"
+            result.output shouldContain ":printCoverage"
+        }
     }
 
     context("When dependencyCheckAnalyze is run with this plugin") {
