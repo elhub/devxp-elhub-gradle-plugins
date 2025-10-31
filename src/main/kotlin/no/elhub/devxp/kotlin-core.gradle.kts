@@ -5,11 +5,14 @@ package no.elhub.devxp
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import no.elhub.devxp.coverage.CoverageReporter
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
+import org.w3c.dom.Document
+import javax.xml.parsers.DocumentBuilderFactory
 
 plugins {
     kotlin("jvm")
@@ -52,11 +55,7 @@ tasks.withType<Test> {
 }
 
 jacoco {
-    toolVersion = "0.8.13" // Has to be the same as TeamCity
-}
-
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+    toolVersion = "0.8.14" // Has to be the same as TeamCity
 }
 
 tasks.jacocoTestReport {
@@ -64,6 +63,26 @@ tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
     }
+}
+
+fun parseJacocoXml(file: File): Document {
+    val factory = DocumentBuilderFactory.newInstance()
+    factory.isValidating = false
+    factory.isNamespaceAware = true
+    factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false) // Prevent external DTD fetching
+    val builder = factory.newDocumentBuilder()
+    return builder.parse(file)
+}
+
+tasks.register("printCoverage") {
+    doLast {
+        CoverageReporter(project).generateReport()
+    }
+}
+
+tasks.test {
+    // Tests are always followed by jacoco report and printCoverage
+    finalizedBy(tasks.jacocoTestReport, tasks["printCoverage"])
 }
 
 testlogger {

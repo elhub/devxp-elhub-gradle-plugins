@@ -56,7 +56,7 @@ class KotlinCoreTest : FunSpec({
             val testTask = project.tasks.getByName("test") as org.gradle.api.tasks.testing.Test
 
             val jacocoExtension = project.extensions.getByType(JacocoPluginExtension::class.java)
-            jacocoExtension.toolVersion shouldBe "0.8.13"
+            jacocoExtension.toolVersion shouldBe "0.8.14"
 
             val jacocoTestReportTask = project.tasks.getByName("jacocoTestReport") as JacocoReport
             jacocoTestReportTask.dependsOn(testTask)
@@ -91,6 +91,15 @@ class KotlinCoreTest : FunSpec({
             val result = testInstance.runTask("jacocoTestReport", "--dry-run")
             result.output shouldContain ":test"
             result.output shouldContain ":jacocoTestReport"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+    }
+
+    context("When printCoverage is run with this plugin") {
+
+        test("should run the printCoverage task") {
+            val result = testInstance.runTask("printCoverage", "--dry-run")
+            result.output shouldContain ":printCoverage"
             result.output shouldContain "BUILD SUCCESSFUL"
         }
     }
