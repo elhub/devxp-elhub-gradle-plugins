@@ -54,35 +54,27 @@ tasks.withType<Test> {
     }
 }
 
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
 jacoco {
     toolVersion = "0.8.14" // Has to be the same as TeamCity
 }
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
+    finalizedBy(tasks["printCoverage"])
     reports {
         xml.required.set(true)
     }
 }
 
-fun parseJacocoXml(file: File): Document {
-    val factory = DocumentBuilderFactory.newInstance()
-    factory.isValidating = false
-    factory.isNamespaceAware = true
-    factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false) // Prevent external DTD fetching
-    val builder = factory.newDocumentBuilder()
-    return builder.parse(file)
-}
-
 tasks.register("printCoverage") {
+    dependsOn(tasks.jacocoTestReport)
     doLast {
         CoverageReporter(project).generateReport()
     }
-}
-
-tasks.test {
-    // Tests are always followed by jacoco report and printCoverage
-    finalizedBy(tasks.jacocoTestReport, tasks["printCoverage"])
 }
 
 testlogger {

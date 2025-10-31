@@ -54,12 +54,17 @@ tasks.withType<Test> {
     }
 }
 
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
 jacoco {
     toolVersion = libs.versions.jacoco.get().toString()
 }
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
+    finalizedBy(tasks["printCoverage"])
     reports {
         xml.required.set(true)
     }
@@ -75,6 +80,7 @@ fun parseJacocoXml(file: File): Document {
 }
 
 tasks.register("printCoverage") {
+    dependsOn(tasks.jacocoTestReport)
     doLast {
         var totalCovered = 0.toBigInteger()
         var totalMissed = 0.toBigInteger()
@@ -118,11 +124,6 @@ tasks.register("printCoverage") {
         println("$color> Instruction Coverage: $coveragePercent% $reset")
         println("$color═════════════════════════════════════════$reset")
     }
-}
-
-tasks.test {
-    // Tests are always followed by jacoco report and printCoverage
-    finalizedBy(tasks.jacocoTestReport, tasks["printCoverage"])
 }
 
 testlogger {
