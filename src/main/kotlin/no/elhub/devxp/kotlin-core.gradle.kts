@@ -5,7 +5,7 @@ package no.elhub.devxp
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import gradle.kotlin.dsl.accessors._f2c187655aecb2c2abbda408159b61ee.artifactory
+import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
 import no.elhub.devxp.coverage.CoverageReporter
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
