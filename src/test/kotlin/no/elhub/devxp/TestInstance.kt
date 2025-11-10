@@ -12,6 +12,10 @@ class TestInstance {
     private var settingsFile: File = File(projectDir.toString(), "settings.gradle.kts")
     var buildFile: File = File(projectDir.toString(), "build.gradle.kts")
     var propertiesFile: File = File(projectDir.toString(), "gradle.properties")
+    val sourceDir = File(projectDir.toString(), "src/main/kotlin/no/elhub/test").apply {
+        mkdirs()
+    }
+    var sourceFile: File = File(sourceDir.toString(), "Main.kt")
 
     init {
         settingsFile.appendText(
@@ -26,13 +30,27 @@ class TestInstance {
                 artifactoryUri=http://jfrog.null.void/artifactory
             """
         )
+        sourceFile.appendText(
+            """
+                package no.elhub.test
+
+                fun main() {
+                    println("Hello, World!")
+                }
+            """
+        )
     }
 
-    fun runTask(task: String, vararg args: String): BuildResult =
+    fun runTask(
+        task: String,
+        vararg args: String,
+        environment: Map<String, String> = emptyMap()
+    ): BuildResult =
         GradleRunner
             .create()
             .withProjectDir(projectDir.toFile())
             .withArguments(listOf(task, *args, "--stacktrace"))
+            .withEnvironment(environment)
             .withPluginClasspath()
             .build()
 

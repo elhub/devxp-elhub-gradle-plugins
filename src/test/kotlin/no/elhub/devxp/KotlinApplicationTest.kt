@@ -3,7 +3,10 @@ package no.elhub.devxp
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
+import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
+import org.gradle.testkit.runner.GradleRunner
+import java.io.File
 
 class KotlinApplicationTest : FunSpec({
     val testInstance = TestInstance()
@@ -18,7 +21,7 @@ class KotlinApplicationTest : FunSpec({
         )
         testInstance.propertiesFile.appendText(
             """
-                applicationMainClass=no.elhub.test.TestMainKt
+                applicationMainClass=no.elhub.test.MainKt
             """.trimIndent()
         )
     }
@@ -70,6 +73,15 @@ class KotlinApplicationTest : FunSpec({
             test("The output should list the $option task") {
                 result.output shouldContain "$option -"
             }
+        }
+    }
+
+    context("When shadowJar is run with this plugin") {
+
+        test("shadowJar task should run successfully") {
+            val result = testInstance.runTask("shadowJar")
+            result.output shouldContain ":shadowJar"
+            result.output shouldContain "BUILD SUCCESSFUL"
         }
     }
 

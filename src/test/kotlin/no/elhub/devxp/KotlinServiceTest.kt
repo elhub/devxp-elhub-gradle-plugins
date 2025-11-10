@@ -18,7 +18,7 @@ class KotlinServiceTest : FunSpec({
         )
     }
 
-    context("When kotlin-application is built") {
+    context("When kotlin-service is built") {
 
         val project = ProjectBuilder.builder().build()
         project.pluginManager.apply("no.elhub.devxp.kotlin-service")
