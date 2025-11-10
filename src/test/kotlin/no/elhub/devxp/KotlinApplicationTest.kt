@@ -3,10 +3,7 @@ package no.elhub.devxp
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
-import org.gradle.testkit.runner.GradleRunner
-import java.io.File
 
 class KotlinApplicationTest : FunSpec({
     val testInstance = TestInstance()
