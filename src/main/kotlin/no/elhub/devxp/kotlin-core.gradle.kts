@@ -8,6 +8,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import no.elhub.devxp.coverage.CoverageReporter
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
@@ -21,6 +22,8 @@ plugins {
     id("com.adarshr.test-logger")
     id("org.owasp.dependencycheck")
     id("org.jetbrains.dokka")
+    id("com.jfrog.artifactory")
+    id("maven-publish")
 }
 
 /** Project should use the Elhub artifactory instance
@@ -84,6 +87,30 @@ testlogger {
     showSkippedStandardStreams = false
     showFailedStandardStreams = true
 }
+
+/*
+ * Publishing
+ */
+artifactory {
+    clientConfig.isIncludeEnvVars = true
+
+    publish {
+        contextUrl = project.findProperty("artifactoryUri")?.toString() ?: "https://jfrog.elhub.cloud/artifactory"
+        repository {
+            repoKey = project.findProperty("artifactoryRepository")?.toString() ?: "elhub-mvn-dev-local"
+            username = project.findProperty("artifactoryUsername")?.toString() ?: "nouser" // The publisher user name
+            password = project.findProperty("artifactoryPassword")?.toString() ?: "nopass" // The publisher password
+        }
+
+        defaults {
+            publications("ALL_PUBLICATIONS")
+            setPublishArtifacts(true)
+            setPublishIvy(false) // Publish generated Ivy descriptor files to Artifactory (true by default)
+        }
+    }
+}
+
+tasks["publish"].dependsOn(tasks["artifactoryPublish"])
 
 /*
  * Versions dependency checker

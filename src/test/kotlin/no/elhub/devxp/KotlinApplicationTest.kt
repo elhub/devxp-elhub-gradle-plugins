@@ -18,7 +18,7 @@ class KotlinApplicationTest : FunSpec({
         )
         testInstance.propertiesFile.appendText(
             """
-                applicationMainClass=no.elhub.test.TestMainKt
+                applicationMainClass=no.elhub.test.MainKt
             """.trimIndent()
         )
     }
@@ -70,6 +70,15 @@ class KotlinApplicationTest : FunSpec({
             test("The output should list the $option task") {
                 result.output shouldContain "$option -"
             }
+        }
+    }
+
+    context("When shadowJar is run with this plugin") {
+
+        test("shadowJar task should run successfully") {
+            val result = testInstance.runTask("shadowJar")
+            result.output shouldContain ":shadowJar"
+            result.output shouldContain "BUILD SUCCESSFUL"
         }
     }
 

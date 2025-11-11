@@ -18,7 +18,7 @@ class KotlinLibraryTest : FunSpec({
         )
     }
 
-    context("When kotlin-application is built") {
+    context("When kotlin-library is built") {
 
         val project = ProjectBuilder.builder().build()
         project.pluginManager.apply("no.elhub.devxp.kotlin-library")

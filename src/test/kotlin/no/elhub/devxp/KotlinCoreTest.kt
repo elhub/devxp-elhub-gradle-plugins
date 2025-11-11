@@ -1,11 +1,13 @@
 package no.elhub.devxp
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import org.gradle.testkit.runner.UnexpectedBuildFailure
 
 class KotlinCoreTest : FunSpec({
     val testInstance = TestInstance()
@@ -111,6 +113,33 @@ class KotlinCoreTest : FunSpec({
         }
     }
 
+    context("When publish is run with this plugin") {
+
+        test("publish --dry-run task should run successfully") {
+            val result = testInstance.runTask("publish", "--dry-run")
+            result.output shouldContain ":artifactoryPublish"
+            result.output shouldContain "artifactoryDeploy"
+            result.output shouldContain ":publish"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+
+        test("publish --dry-run task should run successfully with variables") {
+            val result = testInstance.runTask(
+                "publish",
+                "--dry-run",
+                environment = mapOf(
+                    "artifactoryRepository" to "elhub-mvn-test-local",
+                    "artifactoryUsername" to "user",
+                    "artifactoryPassword" to "password"
+                )
+            )
+            result.output shouldContain ":artifactoryPublish"
+            result.output shouldContain "artifactoryDeploy"
+            result.output shouldContain ":publish"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+    }
+
     context("When dependencyCheckAnalyze is run with this plugin") {
 
         test("should exercise the dependency check") {
@@ -120,12 +149,33 @@ class KotlinCoreTest : FunSpec({
         }
     }
 
+    context("When dokka is run with this plugin") {
+
+        test("dokkaGfm task should run successfully") {
+            val result = testInstance.runTask("dokkaGfm", "--dry-run")
+            result.output shouldContain ":dokkaGfm"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+
+        test("dokkaHtml task should run successfully") {
+            val result = testInstance.runTask("dokkaHtml", "--dry-run")
+            result.output shouldContain ":dokkaHtml"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+    }
+
     context("When teamCityCheck is run with this plugin") {
 
-        test("should exercise the dependency check") {
+        test("should work on a --dry-run") {
             val result = testInstance.runTask("teamcityCheck", "--dry-run")
             result.output shouldContain ":teamcityCheck"
             result.output shouldContain "BUILD SUCCESSFUL"
+        }
+
+        test("should fail if run without a .teamcity directory") {
+            shouldThrow<UnexpectedBuildFailure> {
+                testInstance.runTask("teamcityCheck")
+            }
         }
     }
 
