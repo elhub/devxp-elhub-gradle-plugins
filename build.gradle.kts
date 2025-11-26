@@ -2,7 +2,6 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
@@ -233,14 +232,11 @@ tasks["publish"].dependsOn(tasks["artifactoryPublish"])
 /*
  * Dokka
  */
-tasks.withType<DokkaTask>().configureEach {
-    dokkaSourceSets {
-        named("main") {
-            // Files containing module documentation
-            // Note files must exist (missing files break the build)
-            includes.from("module.md")
-            // Emit warnings for undocumented code
-            reportUndocumented.set(true)
+dokka {
+    dokkaSourceSets.main {
+        includes.from("module.md")
+        sourceLink {
+            localDirectory.set(file("src/main/kotlin"))
         }
     }
 }

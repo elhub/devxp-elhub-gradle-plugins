@@ -73,8 +73,8 @@ class KotlinCoreTest : FunSpec({
                 "assemble",
                 "dependencyUpdates",
                 "dependencyCheckAnalyze",
-                "dokkaGfm",
-                "dokkaHtml",
+                "dokkaGenerate",
+                "dokkaGenerateHtml",
                 "jacocoTestReport",
                 "test",
             )

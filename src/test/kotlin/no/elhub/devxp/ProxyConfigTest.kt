@@ -15,7 +15,8 @@ class ProxyConfigTest : FunSpec({
             project.extensions.extraProperties.set("proxyPort", "8080")
             project.extensions.extraProperties.set("nonProxyHosts", "localhost|*.internal")
 
-            val task = project.tasks.create("analyze", Analyze::class.java)
+            project.tasks.register("analyze", Analyze::class.java)
+            val task = project.getTasksByName("analyze", false).first() as Analyze
             task.setCustomConfiguration()
 
             // Execute doFirst action
