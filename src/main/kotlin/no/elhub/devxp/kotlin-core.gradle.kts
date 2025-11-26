@@ -6,7 +6,6 @@ package no.elhub.devxp
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import no.elhub.devxp.coverage.CoverageReporter
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
@@ -160,14 +159,11 @@ tasks.withType<Aggregate> {
 /*
  * Dokka
  */
-tasks.withType<DokkaTask>().configureEach {
-    dokkaSourceSets {
-        named("main") {
-            // Files containing module documentation
-            // Note files must exist (missing files break the build)
-            includes.from("module.md")
-            // Emit warnings for undocumented code
-            reportUndocumented.set(true)
+dokka {
+    dokkaSourceSets.main {
+        includes.from("module.md")
+        sourceLink {
+            localDirectory.set(file("src/main/kotlin"))
         }
     }
 }
