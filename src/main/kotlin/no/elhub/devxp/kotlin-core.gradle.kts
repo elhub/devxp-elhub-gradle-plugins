@@ -1,6 +1,4 @@
-/**
- * Define core Kotlin project conventions for Elhub.no
- */
+/* Define core Kotlin project conventions for Elhub.no */
 package no.elhub.devxp
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
@@ -25,8 +23,7 @@ plugins {
     id("maven-publish")
 }
 
-/** Project should use the Elhub artifactory instance
- */
+/* Project should use the Elhub artifactory instance  */
 repositories {
     maven(url = "https://jfrog.elhub.cloud/artifactory/elhub-mvn/")
 }
@@ -131,6 +128,9 @@ dependencyCheck {
         // Needs to be disabled until "search.maven.org" is whitelisted in squid. Owasp 12.1.0 uses this to populate artifact
         // metadata for better detection, but the effect should be minimal
         centralEnabled = false
+        nodeAudit {
+            yarnEnabled = false
+        }
         retirejs {
             enabled = false
         }
