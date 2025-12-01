@@ -186,13 +186,13 @@ dependencyCheck {
     }
 }
 
-// tasks.withType<Analyze> {
-// setCustomConfiguration()
-// }
+tasks.withType<Analyze> {
+    setCustomConfiguration()
+}
 
-// tasks.withType<Aggregate> {
-// setCustomConfiguration()
-// }
+tasks.withType<Aggregate> {
+    setCustomConfiguration()
+}
 
 fun AbstractAnalyze.setCustomConfiguration() {
     doFirst {
