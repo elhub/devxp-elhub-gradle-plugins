@@ -27,8 +27,9 @@ repositories {
 
 group = "no.elhub.devxp"
 
-/** Classpaths of plugins used in the elhub-gradle-plugins need to be defined in the dependencies to ensure they
- *  are available when building the plugin Jar.
+/*
+ * Classpaths of plugins used in the elhub-gradle-plugins need to be defined in the dependencies to ensure they
+ * are available when building the plugin Jar.
  */
 dependencies {
     implementation(libs.kotlin.gradle.plugin)
@@ -158,8 +159,16 @@ tasks.named("dependencyUpdates") {
  * Dependency Check Plugin
  */
 dependencyCheck {
-    formats = listOf(ReportGenerator.Format.JSON.toString(), ReportGenerator.Format.HTML.toString())
+    formats = listOf(ReportGenerator.Format.JSON.name, ReportGenerator.Format.HTML.name)
     analyzers {
+        // Teamcity agents running .NET version too old for .NET Assembly Analyzer. Needs to be disabled until agents are updated
+        assemblyEnabled = false
+        // Needs to be disabled until "search.maven.org" is whitelisted in squid. Owasp 12.1.0 uses this to populate artifact
+        // metadata for better detection, but the effect should be minimal
+        centralEnabled = false
+        nodeAudit {
+            yarnEnabled = false
+        }
         retirejs {
             enabled = false
         }
@@ -173,13 +182,13 @@ dependencyCheck {
     }
 }
 
-tasks.withType<Analyze> {
-    setCustomConfiguration()
-}
+// tasks.withType<Analyze> {
+// setCustomConfiguration()
+// }
 
-tasks.withType<Aggregate> {
-    setCustomConfiguration()
-}
+// tasks.withType<Aggregate> {
+// setCustomConfiguration()
+// }
 
 fun AbstractAnalyze.setCustomConfiguration() {
     doFirst {
