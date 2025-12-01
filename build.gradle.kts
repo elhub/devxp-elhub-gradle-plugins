@@ -178,7 +178,11 @@ dependencyCheck {
         }
     }
     nvd {
-        datafeedUrl = "https://owasp.elhub.cloud"
+        apiKey = System.getenv("NVD_API_KEY")
+        // Only use custom datafeed URL in CI/CD environments
+        if (System.getenv("CI") != null || System.getenv("TEAMCITY_VERSION") != null) {
+            datafeedUrl = "https://owasp.elhub.cloud"
+        }
     }
 }
 

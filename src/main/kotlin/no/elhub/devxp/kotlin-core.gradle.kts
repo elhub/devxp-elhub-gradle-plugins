@@ -140,11 +140,11 @@ dependencyCheck {
         }
     }
     nvd {
-        // Pick up the NVD_API_KEY from the environment
         apiKey = System.getenv("NVD_API_KEY")
-        // Fetch vulnerability data from Elhub's OWASP instance
-        // Comment out as build config is not passing non_proxy_hosts variable which causing dependency check to fail
-        datafeedUrl = "https://owasp.elhub.cloud"
+        // Only use custom datafeed URL in CI/CD environments
+        if (System.getenv("CI") != null || System.getenv("TEAMCITY_VERSION") != null) {
+            datafeedUrl = "https://owasp.elhub.cloud"
+        }
     }
 }
 
