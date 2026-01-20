@@ -160,6 +160,9 @@ tasks.named("dependencyUpdates") {
  */
 dependencyCheck {
     formats = listOf(ReportGenerator.Format.JSON.name, ReportGenerator.Format.HTML.name)
+    if (project.hasProperty("dependencyCheck.suppressionFile")) {
+        suppressionFile = project.property("dependencyCheck.suppressionFile").toString()
+    }
     analyzers {
         // Teamcity agents running .NET version too old for .NET Assembly Analyzer. Needs to be disabled until agents are updated
         assemblyEnabled = false
