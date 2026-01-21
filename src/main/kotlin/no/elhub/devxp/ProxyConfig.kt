@@ -2,26 +2,34 @@ package no.elhub.devxp
 
 import org.owasp.dependencycheck.gradle.tasks.AbstractAnalyze
 
-fun AbstractAnalyze.setCustomConfiguration() {
-    doFirst {
-        val proxyHost = project.findProperty("proxyHost")
-        val proxyPort = project.findProperty("proxyPort")
-        val nonProxyHosts = project.findProperty("nonProxyHosts")
-        listOf("http", "https").forEach {
-            if (proxyHost != null && proxyPort != null) {
-                System.setProperty("$it.proxyHost", proxyHost.toString())
-                System.setProperty("$it.proxyPort", proxyPort.toString())
-            }
-            if (nonProxyHosts != null) {
-                System.setProperty("$it.nonProxyHosts", nonProxyHosts.toString())
-            }
+fun applyProxyConfig(proxyHost: String?, proxyPort: String?, nonProxyHosts: String?) {
+    listOf("http", "https").forEach {
+        if (!proxyHost.isNullOrBlank() && !proxyPort.isNullOrBlank()) {
+            System.setProperty("$it.proxyHost", proxyHost)
+            System.setProperty("$it.proxyPort", proxyPort)
+        }
+        if (!nonProxyHosts.isNullOrBlank()) {
+            System.setProperty("$it.nonProxyHosts", nonProxyHosts)
         }
     }
+}
+
+fun clearProxyConfig() {
+    listOf("http", "https").forEach {
+        System.clearProperty("$it.proxyPort")
+        System.clearProperty("$it.proxyHost")
+        System.clearProperty("$it.nonProxyHosts")
+    }
+}
+
+fun AbstractAnalyze.setCustomConfiguration() {
+    doFirst {
+        val proxyHost = project.findProperty("proxyHost")?.toString()
+        val proxyPort = project.findProperty("proxyPort")?.toString()
+        val nonProxyHosts = project.findProperty("nonProxyHosts")?.toString()
+        applyProxyConfig(proxyHost, proxyPort, nonProxyHosts)
+    }
     doLast {
-        listOf("http", "https").forEach {
-            System.clearProperty("$it.proxyPort")
-            System.clearProperty("$it.proxyHost")
-            System.clearProperty("$it.nonProxyHosts")
-        }
+        clearProxyConfig()
     }
 }
