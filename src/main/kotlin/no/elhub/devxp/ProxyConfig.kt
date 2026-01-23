@@ -24,10 +24,11 @@ fun clearProxyConfig() {
 
 fun AbstractAnalyze.setCustomConfiguration() {
     doFirst {
-        val proxyHost = project.findProperty("proxyHost")?.toString()
-        val proxyPort = project.findProperty("proxyPort")?.toString()
-        val nonProxyHosts = project.findProperty("nonProxyHosts")?.toString()
-        applyProxyConfig(proxyHost, proxyPort, nonProxyHosts)
+        applyProxyConfig(
+            project.findProperty("proxyHost")?.toString(),
+            project.findProperty("proxyPort")?.toString(),
+            project.findProperty("nonProxyHosts")?.toString()
+        )
     }
     doLast {
         clearProxyConfig()
