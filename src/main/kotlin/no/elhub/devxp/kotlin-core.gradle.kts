@@ -6,6 +6,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import no.elhub.devxp.coverage.CoverageReporter
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
@@ -17,6 +18,7 @@ plugins {
     id("com.github.ben-manes.versions")
     id("jacoco")
     id("com.adarshr.test-logger")
+    id("org.jlleitschuh.gradle.ktlint")
     id("org.owasp.dependencycheck")
     id("org.jetbrains.dokka")
     id("com.jfrog.artifactory")
@@ -114,6 +116,25 @@ tasks["publish"].dependsOn(tasks["artifactoryPublish"])
 tasks.withType<DependencyUpdatesTask> {
     rejectVersionIf {
         isNonStable(candidate.version) && !isNonStable(currentVersion)
+    }
+}
+
+/*
+ * Ktlint
+ */
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    version.set("1.8.0") // Pick a recent compatible version
+    debug.set(false)
+    verbose.set(true)
+    android.set(false)
+    outputToConsole.set(true)
+    outputColorName.set("RED")
+    ignoreFailures.set(false) // Fail build if style violations are found
+    enableExperimentalRules.set(false)
+
+    reporters {
+        reporter(ReporterType.PLAIN)
+        reporter(ReporterType.CHECKSTYLE) // Useful for CI/TeamCity parsing
     }
 }
 
