@@ -6,9 +6,15 @@ import java.math.BigInteger
 
 class CoverageReporter(private val project: Project) {
 
+    data class CoverageMetrics(
+        var instructionCovered: BigInteger = BigInteger.ZERO,
+        var instructionMissed: BigInteger = BigInteger.ZERO,
+        var branchCovered: BigInteger = BigInteger.ZERO,
+        var branchMissed: BigInteger = BigInteger.ZERO
+    )
+
     fun generateReport() {
-        var totalCovered = BigInteger.ZERO
-        var totalMissed = BigInteger.ZERO
+        val totalMetrics = CoverageMetrics()
 
         val projectsToCheck = if (project.subprojects.isEmpty()) {
             listOf(project)
@@ -18,19 +24,20 @@ class CoverageReporter(private val project: Project) {
 
         projectsToCheck.forEach { proj ->
             val reportFile = proj.file("build/reports/jacoco/test/jacocoTestReport.xml")
-            if (!reportFile.exists()) return@forEach
-
-            val (covered, missed) = extractCoverage(reportFile)
-            totalCovered += covered
-            totalMissed += missed
+            if (reportFile.exists()) {
+                val projectMetrics = extractCoverage(reportFile)
+                totalMetrics.instructionCovered += projectMetrics.instructionCovered
+                totalMetrics.instructionMissed += projectMetrics.instructionMissed
+                totalMetrics.branchCovered += projectMetrics.branchCovered
+                totalMetrics.branchMissed += projectMetrics.branchMissed
+            }
         }
 
-        printColoredReport(totalCovered, totalMissed)
+        printColoredReport(totalMetrics)
     }
 
-    private fun extractCoverage(reportFile: File): Pair<BigInteger, BigInteger> {
-        var covered = BigInteger.ZERO
-        var missed = BigInteger.ZERO
+    private fun extractCoverage(reportFile: File): CoverageMetrics {
+        val metrics = CoverageMetrics()
 
         val doc = JacocoParser.parseJacocoXml(reportFile)
         val counters = doc.getElementsByTagName("counter")
@@ -39,32 +46,57 @@ class CoverageReporter(private val project: Project) {
             val node = counters.item(i)
             val attrs = node.attributes
             val type = attrs.getNamedItem("type").nodeValue
-            if (type == "INSTRUCTION") {
-                covered += attrs.getNamedItem("covered").nodeValue.toBigInteger()
-                missed += attrs.getNamedItem("missed").nodeValue.toBigInteger()
+
+            when (type) {
+                "INSTRUCTION" -> {
+                    metrics.instructionCovered += attrs.getNamedItem("covered").nodeValue.toBigInteger()
+                    metrics.instructionMissed += attrs.getNamedItem("missed").nodeValue.toBigInteger()
+                }
+                "BRANCH" -> {
+                    metrics.branchCovered += attrs.getNamedItem("covered").nodeValue.toBigInteger()
+                    metrics.branchMissed += attrs.getNamedItem("missed").nodeValue.toBigInteger()
+                }
             }
         }
 
-        return Pair(covered, missed)
+        return metrics
     }
 
-    private fun printColoredReport(totalCovered: BigInteger, totalMissed: BigInteger) {
-        val total = totalCovered + totalMissed
-        val coveragePercent = if (total > BigInteger.ZERO) {
-            ((totalCovered * BigInteger.valueOf(100)) / total).toInt()
+    private fun printColoredReport(metrics: CoverageMetrics) {
+        val instructionTotal = metrics.instructionCovered + metrics.instructionMissed
+        val branchTotal = metrics.branchCovered + metrics.branchMissed
+
+        val instructionPercent = calculatePercent(metrics.instructionCovered, instructionTotal)
+        val branchPercent = calculatePercent(metrics.branchCovered, branchTotal)
+
+        val reset = "\u001B[0m"
+        val green = "\u001B[32m"
+        val yellow = "\u001B[33m"
+        val red = "\u001B[31m"
+
+        val iColor = getColor(instructionPercent, green, yellow, red)
+        val bColor = getColor(branchPercent, green, yellow, red)
+
+        println("════════════════════════════════════════════════════════════")
+        println("> JaCoCo Test Report")
+        println("════════════════════════════════════════════════════════════")
+        println(" Instructions: $iColor$instructionPercent%$reset ($instructionTotal total)")
+        println(" Branches:     $bColor$branchPercent%$reset ($branchTotal total)")
+        println("════════════════════════════════════════════════════════════")
+    }
+
+    private fun calculatePercent(covered: BigInteger, total: BigInteger): Int {
+        return if (total > BigInteger.ZERO) {
+            ((covered * BigInteger.valueOf(100)) / total).toInt()
         } else {
             0
         }
+    }
 
-        val reset = "\u001B[0m"
-        val color = when {
-            coveragePercent >= 80 -> "\u001B[32m"
-            else -> "\u001B[31m"
+    private fun getColor(percent: Int, green: String, yellow: String, red: String): String {
+        return when {
+            percent >= 80 -> green
+            else -> red
         }
-
-        println("$color═════════════════════════════════════════$reset")
-        println("$color> JaCoCO Test Report $reset")
-        println("$color> Instruction Coverage: $coveragePercent% $reset")
-        println("$color═════════════════════════════════════════$reset")
     }
 }

@@ -5,13 +5,10 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import no.elhub.devxp.coverage.CoverageReporter
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import org.owasp.dependencycheck.gradle.tasks.Aggregate
 import org.owasp.dependencycheck.gradle.tasks.Analyze
 import org.owasp.dependencycheck.reporting.ReportGenerator
-import org.w3c.dom.Document
-import javax.xml.parsers.DocumentBuilderFactory
 
 plugins {
     kotlin("jvm")

@@ -75,13 +75,13 @@ class KotlinApplicationTest : FunSpec({
 
     context("When shadowJar is run with this plugin") {
 
-        test("shadowJar task should run successfully") {
+        test("shadowJar task should produce a valid jar with correct manifest and filename") {
+            testInstance.propertiesFile.appendText("\nversion=1.0.0")
             val result = testInstance.runTask("shadowJar")
             result.output shouldContain ":shadowJar"
             result.output shouldContain "BUILD SUCCESSFUL"
         }
     }
-
     afterSpec {
         testInstance.dispose()
     }
