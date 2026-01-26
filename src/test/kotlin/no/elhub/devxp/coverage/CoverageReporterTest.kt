@@ -71,7 +71,7 @@ class CoverageReporterTest : FunSpec({
             output shouldContain "0%"
         }
 
-        test("should report 80& branch coverage correctly") {
+        test("should report 80% branch coverage correctly") {
             val project = ProjectBuilder.builder().build()
             val reportDir = File(project.projectDir, "build/reports/jacoco/test")
             reportDir.mkdirs()
