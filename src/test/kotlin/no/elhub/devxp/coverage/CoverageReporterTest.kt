@@ -24,7 +24,7 @@ class CoverageReporterTest : FunSpec({
 
     context("Coverage Reporting") {
 
-        test("should report 100% coverage for fully covered code") {
+        test("should report 100% instruction coverage for fully covered code") {
             val project = ProjectBuilder.builder().build()
             val reportDir = File(project.projectDir, "build/reports/jacoco/test")
             reportDir.mkdirs()
@@ -35,6 +35,7 @@ class CoverageReporterTest : FunSpec({
             <?xml version="1.0" encoding="UTF-8"?>
             <report name="test">
                 <counter type="INSTRUCTION" missed="0" covered="100"/>
+                <counter type="BRANCH" missed="2" covered="2"/>
             </report>
                 """.trimIndent()
             )
@@ -44,10 +45,10 @@ class CoverageReporterTest : FunSpec({
             }
 
             output shouldContain "100%"
-            output shouldContain "JaCoCO Test Report"
+            output shouldContain "JaCoCo Test Report"
         }
 
-        test("should report 0% coverage when no instructions covered") {
+        test("should report 0% instruction coverage when no instructions covered") {
             val project = ProjectBuilder.builder().build()
             val reportDir = File(project.projectDir, "build/reports/jacoco/test")
             reportDir.mkdirs()
@@ -58,6 +59,7 @@ class CoverageReporterTest : FunSpec({
             <?xml version="1.0" encoding="UTF-8"?>
             <report name="test">
                 <counter type="INSTRUCTION" missed="100" covered="0"/>
+                <counter type="BRANCH" missed="2" covered="2"/>
             </report>
                 """.trimIndent()
             )
@@ -67,6 +69,29 @@ class CoverageReporterTest : FunSpec({
             }
 
             output shouldContain "0%"
+        }
+
+        test("should report 80& branch coverage correctly") {
+            val project = ProjectBuilder.builder().build()
+            val reportDir = File(project.projectDir, "build/reports/jacoco/test")
+            reportDir.mkdirs()
+
+            val reportFile = File(reportDir, "jacocoTestReport.xml")
+            reportFile.writeText(
+                """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <report name="test">
+                <counter type="INSTRUCTION" missed="10" covered="90"/>
+                <counter type="BRANCH" missed="4" covered="16"/>
+            </report>
+                """.trimIndent()
+            )
+
+            val output = captureOutput {
+                CoverageReporter(project).generateReport()
+            }
+
+            output shouldContain "80%"
         }
 
         test("should aggregate coverage from multiple subprojects") {
@@ -82,6 +107,7 @@ class CoverageReporterTest : FunSpec({
                 <?xml version="1.0" encoding="UTF-8"?>
                 <report name="test">
                     <counter type="INSTRUCTION" missed="10" covered="90"/>
+                    <counter type="BRANCH" missed="2" covered="2"/>
                 </report>
                     """.trimIndent()
                 )
@@ -104,7 +130,7 @@ class CoverageReporterTest : FunSpec({
             output shouldContain "0%"
         }
 
-        test("should use green color for coverage >= 80%") {
+        test("should use green color for instruction coverage >= 80%") {
             val project = ProjectBuilder.builder().build()
             val reportDir = File(project.projectDir, "build/reports/jacoco/test")
             reportDir.mkdirs()
@@ -115,6 +141,7 @@ class CoverageReporterTest : FunSpec({
             <?xml version="1.0" encoding="UTF-8"?>
             <report name="test">
                 <counter type="INSTRUCTION" missed="15" covered="85"/>
+                <counter type="BRANCH" missed="2" covered="2"/>
             </report>
                 """.trimIndent()
             )
@@ -127,7 +154,7 @@ class CoverageReporterTest : FunSpec({
             output shouldContain "85%"
         }
 
-        test("should use red color for coverage < 80%") {
+        test("should use red color for instruction coverage < 80%") {
             val project = ProjectBuilder.builder().build()
             val reportDir = File(project.projectDir, "build/reports/jacoco/test")
             reportDir.mkdirs()
@@ -138,6 +165,7 @@ class CoverageReporterTest : FunSpec({
             <?xml version="1.0" encoding="UTF-8"?>
             <report name="test">
                 <counter type="INSTRUCTION" missed="70" covered="30"/>
+                <counter type="BRANCH" missed="2" covered="2"/>
             </report>
                 """.trimIndent()
             )
