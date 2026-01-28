@@ -8,8 +8,6 @@ import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.gradle.testkit.runner.UnexpectedBuildFailure
-import kotlin.apply
-import kotlin.collections.set
 
 class KotlinCoreTest : FunSpec({
     val testInstance = TestInstance()
