@@ -170,19 +170,34 @@ class KotlinCoreTest : FunSpec({
             result.output shouldContain ":dependencyCheckAnalyze"
             result.output shouldContain "BUILD SUCCESSFUL"
         }
+
+        test("should work with -PdependencyCHeck.suppressionFile") {
+            val result = testInstance.runTask("dependencyCheckAnalyze", "-PdependencyCheck.suppressionFile=suppressions.xml", "--dry-run")
+            result.output shouldContain ":dependencyCheckAnalyze"
+            result.output shouldContain "BUILD SUCCESSFUL"
+        }
+
+        test("should configure dependencyCheck suppression file via Project property") {
+            val projectWithSuppression = ProjectBuilder.builder().build()
+            projectWithSuppression.extensions.extraProperties["dependencyCheck.suppressionFile"] = "suppressions.xml"
+            projectWithSuppression.pluginManager.apply("no.elhub.devxp.kotlin-core")
+            val extension =
+                projectWithSuppression.extensions.getByName("dependencyCheck") as org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension
+            extension.suppressionFile.get() shouldBe "suppressions.xml"
+        }
     }
 
     context("When dokka is run with this plugin") {
 
         test("dokkaGfm task should run successfully") {
-            val result = testInstance.runTask("dokkaGfm", "--dry-run")
-            result.output shouldContain ":dokkaGfm"
+            val result = testInstance.runTask("dokkaGenerate", "--dry-run")
+            result.output shouldContain ":dokkaGenerate"
             result.output shouldContain "BUILD SUCCESSFUL"
         }
 
         test("dokkaHtml task should run successfully") {
-            val result = testInstance.runTask("dokkaHtml", "--dry-run")
-            result.output shouldContain ":dokkaHtml"
+            val result = testInstance.runTask("dokkaGenerateHtml", "--dry-run")
+            result.output shouldContain ":dokkaGenerateHtml"
             result.output shouldContain "BUILD SUCCESSFUL"
         }
     }
