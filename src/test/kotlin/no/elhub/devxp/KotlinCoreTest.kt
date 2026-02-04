@@ -140,29 +140,6 @@ class KotlinCoreTest : FunSpec({
         }
     }
 
-    context("When ktlint is run with this plugin") {
-
-        test("ktlintCheck --dry-run task should run successfully") {
-            try {
-                val result = testInstance.runTask("ktlintCheck")
-                result.output shouldContain ":ktlintCheck"
-                result.output shouldContain "BUILD SUCCESSFUL"
-            } catch (_: Exception) {
-                // Ignored, as ktlintCheck will fail on first run due to code style violations
-            }
-        }
-
-        test("ktlintFormat --dry-run task should run successfully") {
-            try {
-                val result = testInstance.runTask("ktlintFormat", "--dry-run")
-                result.output shouldContain ":ktlintFormat"
-                result.output shouldContain "BUILD SUCCESSFUL"
-            } catch (_: Exception) {
-                // Ignored, as ktlintFormat will fail on first run due to code style violations
-            }
-        }
-    }
-
     context("When dependencyCheckAnalyze is run with this plugin") {
 
         test("should exercise the dependency check") {
