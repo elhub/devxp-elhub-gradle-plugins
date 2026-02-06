@@ -6,13 +6,12 @@ format.version = "1.1"
 [versions]
 commons-io = "2.21.0"
 dokka = "2.1.0"
-gradle-jib = "3.5.2"
+gradle-jib = "3.5.3"
 gradle-versions = "0.53.0"
 jacoco = "0.8.14"
 jfrog = "6.0.4"
-kotest = "6.1.0"
-kotlin = "2.3.0"
-ktlint = "14.0.1"
+kotest = "6.1.3"
+kotlin = "2.3.10"
 owasp-dependency = "12.2.0"
 shadow = "9.3.1"
 test-logger = "4.0.0"
@@ -23,7 +22,6 @@ build-jfrog-build-info = { group = "org.jfrog.buildinfo", name = "build-info-ext
 build-shadow-plugin = { group = "com.gradleup.shadow", name = "shadow-gradle-plugin", version.ref = "shadow" }
 docs-dokka-plugin = { group ="org.jetbrains.dokka", name ="dokka-gradle-plugin", version.ref = "dokka"}
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-ktlint-gradle-plugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint" }
 test-logger-plugin = { group = "com.adarshr", name = "gradle-test-logger-plugin", version.ref = "test-logger" }
 test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 version-gradle-versions-plugin = { group = "com.github.ben-manes", name = "gradle-versions-plugin", version.ref = "gradle-versions" }
@@ -34,7 +32,6 @@ gradle-jib-plugin = { group = "com.google.cloud.tools", name = "jib-gradle-plugi
 build-artifactory = { id = "com.jfrog.artifactory", version.ref = "jfrog" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 gradle-jib = { id = "com.google.cloud.tools.jib", version.ref = "gradle-jib" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "kotlin" }
 maven-publish = { id = "maven-publish" }
 owasp-dependency-check = { id = "org.owasp.dependencycheck", version.ref = "owasp-dependency" }
 test-jacoco = { id = "jacoco" }

@@ -14,7 +14,6 @@ plugins {
     id("com.github.ben-manes.versions")
     id("jacoco")
     id("com.adarshr.test-logger")
-    id("org.jlleitschuh.gradle.ktlint")
     id("org.owasp.dependencycheck")
     id("org.jetbrains.dokka")
     id("com.jfrog.artifactory")
