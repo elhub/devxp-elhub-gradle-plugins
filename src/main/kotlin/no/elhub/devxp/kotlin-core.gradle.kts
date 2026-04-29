@@ -135,6 +135,7 @@ dependencyCheck {
             enabled = false
         }
         ossIndex {
+            enabled = false // We are IP banned from Sonatype likely due to too many requests. Remove this if a solution is found.
             username = System.getenv("SONATYPE_USERNAME")
             password = System.getenv("SONATYPE_API_TOKEN")
         }
