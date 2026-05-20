@@ -68,8 +68,23 @@ tasks.jacocoTestReport {
 
 tasks.register("printCoverage") {
     dependsOn(tasks.jacocoTestReport)
+
+    // For some projects, which use configuration-cache, we cannot inspect the project at execution time, so we cannot have this within doLast
+    val reportFiles: List<File> = run {
+        val projectsToCheck = if (project.subprojects.isEmpty()) {
+            listOf(project)
+        } else {
+            project.subprojects.toList()
+        }
+        projectsToCheck.map {
+            it.file("build/reports/jacoco/test/jacocoTestReport.xml")
+        }
+    }
+
+    val reports = objects.fileCollection().from(reportFiles)
+
     doLast {
-        CoverageReporter(project).generateReport()
+        CoverageReporter(reports.files.filter { it.exists() }).generateReport()
     }
 }
 

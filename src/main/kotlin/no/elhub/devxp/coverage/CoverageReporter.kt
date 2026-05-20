@@ -1,10 +1,9 @@
 package no.elhub.devxp.coverage
 
-import org.gradle.api.Project
 import java.io.File
 import java.math.BigInteger
 
-class CoverageReporter(private val project: Project) {
+class CoverageReporter(private val reportFiles: List<File>) {
 
     data class CoverageMetrics(
         var instructionCovered: BigInteger = BigInteger.ZERO,
@@ -16,21 +15,12 @@ class CoverageReporter(private val project: Project) {
     fun generateReport() {
         val totalMetrics = CoverageMetrics()
 
-        val projectsToCheck = if (project.subprojects.isEmpty()) {
-            listOf(project)
-        } else {
-            project.subprojects
-        }
-
-        projectsToCheck.forEach { proj ->
-            val reportFile = proj.file("build/reports/jacoco/test/jacocoTestReport.xml")
-            if (reportFile.exists()) {
-                val projectMetrics = extractCoverage(reportFile)
-                totalMetrics.instructionCovered += projectMetrics.instructionCovered
-                totalMetrics.instructionMissed += projectMetrics.instructionMissed
-                totalMetrics.branchCovered += projectMetrics.branchCovered
-                totalMetrics.branchMissed += projectMetrics.branchMissed
-            }
+        reportFiles.forEach { reportFile ->
+            val projectMetrics = extractCoverage(reportFile)
+            totalMetrics.instructionCovered += projectMetrics.instructionCovered
+            totalMetrics.instructionMissed += projectMetrics.instructionMissed
+            totalMetrics.branchCovered += projectMetrics.branchCovered
+            totalMetrics.branchMissed += projectMetrics.branchMissed
         }
 
         printColoredReport(totalMetrics)

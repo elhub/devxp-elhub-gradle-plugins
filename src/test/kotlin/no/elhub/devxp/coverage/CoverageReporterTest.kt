@@ -40,8 +40,9 @@ class CoverageReporterTest : FunSpec({
                 """.trimIndent()
             )
 
+
             val output = captureOutput {
-                CoverageReporter(project).generateReport()
+                CoverageReporter(listOf(reportFile)).generateReport()
             }
 
             output shouldContain "100%"
@@ -65,7 +66,7 @@ class CoverageReporterTest : FunSpec({
             )
 
             val output = captureOutput {
-                CoverageReporter(project).generateReport()
+                CoverageReporter(listOf(reportFile)).generateReport()
             }
 
             output shouldContain "0%"
@@ -88,7 +89,7 @@ class CoverageReporterTest : FunSpec({
             )
 
             val output = captureOutput {
-                CoverageReporter(project).generateReport()
+                CoverageReporter(listOf(reportFile)).generateReport()
             }
 
             output shouldContain "80%"
@@ -99,10 +100,13 @@ class CoverageReporterTest : FunSpec({
             val subproject1 = ProjectBuilder.builder().withParent(rootProject).withName("sub1").build()
             val subproject2 = ProjectBuilder.builder().withParent(rootProject).withName("sub2").build()
 
+            val reportFiles = mutableListOf<File>()
+
             listOf(subproject1, subproject2).forEach { proj ->
                 val reportDir = File(proj.projectDir, "build/reports/jacoco/test")
                 reportDir.mkdirs()
-                File(reportDir, "jacocoTestReport.xml").writeText(
+                val file = File(reportDir, "jacocoTestReport.xml")
+                file.writeText(
                     """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <report name="test">
@@ -111,20 +115,19 @@ class CoverageReporterTest : FunSpec({
                 </report>
                     """.trimIndent()
                 )
+                reportFiles.add(file)
             }
 
             val output = captureOutput {
-                CoverageReporter(rootProject).generateReport()
+                CoverageReporter(reportFiles).generateReport()
             }
 
             output shouldContain "90%"
         }
 
         test("should handle missing report files gracefully") {
-            val project = ProjectBuilder.builder().build()
-
             val output = captureOutput {
-                CoverageReporter(project).generateReport()
+                CoverageReporter(emptyList()).generateReport()
             }
 
             output shouldContain "0%"
@@ -147,7 +150,7 @@ class CoverageReporterTest : FunSpec({
             )
 
             val output = captureOutput {
-                CoverageReporter(project).generateReport()
+                CoverageReporter(listOf(reportFile)).generateReport()
             }
 
             output shouldContain "\u001B[32m"
@@ -171,7 +174,7 @@ class CoverageReporterTest : FunSpec({
             )
 
             val output = captureOutput {
-                CoverageReporter(project).generateReport()
+                CoverageReporter(listOf(reportFile)).generateReport()
             }
 
             output shouldContain "\u001B[31m"
