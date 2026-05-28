@@ -8,7 +8,6 @@ elhubProject(DEVXP, "devxp-elhub-gradle-plugins") {
     pipeline {
         sequential {
             val artifacts = gradleVerify {
-                analyzeDependencies = false
                 enablePublishMetrics = true
             }
             gradlePublish(artifacts = listOf(artifacts)) {
