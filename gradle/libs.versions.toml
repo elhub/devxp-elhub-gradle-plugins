@@ -12,7 +12,7 @@ jacoco = "0.8.14"
 jfrog = "6.0.4"
 kotest = "6.1.7"
 kotlin = "2.3.20"
-owasp-dependency = "12.2.0"
+owasp-dependency = "12.2.2"
 shadow = "9.4.0"
 test-logger = "4.0.0"
 
