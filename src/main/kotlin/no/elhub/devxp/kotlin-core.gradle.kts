@@ -165,6 +165,11 @@ dependencyCheck {
     }
 }
 
+tasks.named("cyclonedxBom") {
+    group = "build"
+    description = "Generates a CycloneDX SBOM for the project."
+}
+
 tasks.withType<Analyze> {
     setCustomConfiguration()
 }
