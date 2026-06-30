@@ -18,6 +18,7 @@ plugins {
     id("org.jetbrains.dokka")
     id("com.jfrog.artifactory")
     id("maven-publish")
+    id("org.cyclonedx.bom")
 }
 
 /* Project should use the Elhub artifactory instance  */
