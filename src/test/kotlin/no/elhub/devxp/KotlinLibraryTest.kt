@@ -32,7 +32,8 @@ class KotlinLibraryTest : FunSpec({
                 "org.owasp.dependencycheck",
                 "org.jetbrains.dokka",
                 "com.jfrog.artifactory",
-                "maven-publish"
+                "maven-publish",
+                "org.cyclonedx.bom",
             )
 
         pluginsIncluded.forEach { plugin ->
@@ -52,7 +53,8 @@ class KotlinLibraryTest : FunSpec({
                 "jacocoTestReport",
                 "test",
                 "publish",
-                "artifactoryPublish"
+                "artifactoryPublish",
+                "cyclonedxBom",
             )
         val result = testInstance.runTask("tasks")
 

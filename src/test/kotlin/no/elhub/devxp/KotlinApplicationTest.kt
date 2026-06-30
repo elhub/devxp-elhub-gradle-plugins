@@ -42,7 +42,8 @@ class KotlinApplicationTest : FunSpec({
                 "application",
                 "com.github.johnrengelman.shadow",
                 "com.jfrog.artifactory",
-                "maven-publish"
+                "maven-publish",
+                "org.cyclonedx.bom",
             )
 
         pluginsIncluded.forEach { plugin ->
@@ -76,6 +77,7 @@ class KotlinApplicationTest : FunSpec({
                 "assemble",
                 "dependencyUpdates",
                 "dependencyCheckAnalyze",
+                "cyclonedxBom",
                 "jacocoTestReport",
                 "test",
                 "publish",
