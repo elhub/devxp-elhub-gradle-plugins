@@ -198,7 +198,7 @@ class KotlinCoreTest : FunSpec({
 
     context("When cyclonedxBom is run with this plugin") {
 
-        xtest("should work") {
+        test("should work") {
             val result = testInstance.runTask("cyclonedxBom")
             result.output shouldContain ":cyclonedxBom"
             result.output shouldContain "BUILD SUCCESSFUL"
