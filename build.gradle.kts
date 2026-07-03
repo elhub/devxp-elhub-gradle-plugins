@@ -15,6 +15,7 @@ plugins {
     alias(libs.plugins.test.jacoco)
     alias(libs.plugins.test.logger)
     alias(libs.plugins.owasp.dependency.check)
+    alias(libs.plugins.cyclonedx.gradle)
     alias(libs.plugins.build.artifactory)
     alias(libs.plugins.maven.publish) apply true
     alias(libs.plugins.gradle.jib)
