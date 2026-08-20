@@ -11,7 +11,7 @@ import org.owasp.dependencycheck.reporting.ReportGenerator
 
 plugins {
     kotlin("jvm")
-    id("com.github.ben-manes.versions")
+    id("io.github.ben-manes.versions")
     id("jacoco")
     id("com.adarshr.test-logger")
     id("org.owasp.dependencycheck")
@@ -56,7 +56,7 @@ tasks.test {
 }
 
 jacoco {
-    toolVersion = "0.8.14" // Has to be the same as TeamCity
+    toolVersion = "0.8.15"
 }
 
 tasks.jacocoTestReport {

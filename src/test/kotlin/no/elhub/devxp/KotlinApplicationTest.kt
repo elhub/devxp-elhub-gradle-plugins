@@ -34,13 +34,13 @@ class KotlinApplicationTest : FunSpec({
         val pluginsIncluded =
             arrayOf<String>(
                 "org.jetbrains.kotlin.jvm",
-                "com.github.ben-manes.versions",
+                "io.github.ben-manes.versions",
                 "jacoco",
                 "com.adarshr.test-logger",
                 "org.owasp.dependencycheck",
                 "org.jetbrains.dokka",
                 "application",
-                "com.github.johnrengelman.shadow",
+                "com.gradleup.shadow",
                 "com.jfrog.artifactory",
                 "maven-publish",
                 "org.cyclonedx.bom",

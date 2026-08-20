@@ -61,7 +61,7 @@ tasks.test {
 }
 
 jacoco {
-    toolVersion = libs.versions.jacoco.get().toString()
+    toolVersion = libs.versions.jacoco.get()
 }
 
 tasks.jacocoTestReport {
@@ -110,17 +110,19 @@ tasks.register("printCoverage") {
         }
 
         val total = totalCovered + totalMissed
-        val coveragePercent = if (total > BigInteger.ZERO) {
-            ((totalCovered * 100.toBigInteger()) / total).toInt()
-        } else {
-            0
-        }
+        val coveragePercent =
+            if (total > BigInteger.ZERO) {
+                ((totalCovered * 100.toBigInteger()) / total).toInt()
+            } else {
+                0
+            }
 
         val reset = "\u001B[0m"
-        val color = when {
-            coveragePercent >= 80 -> "\u001B[32m"
-            else -> "\u001B[31m"
-        }
+        val color =
+            when {
+                coveragePercent >= 80 -> "\u001B[32m"
+                else -> "\u001B[31m"
+            }
         println("$color═════════════════════════════════════════$reset")
         println("$color> JaCoCO Test Report $reset")
         println("$color> Instruction Coverage: $coveragePercent% $reset")

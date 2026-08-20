@@ -26,7 +26,7 @@ class KotlinServiceTest : FunSpec({
         val pluginsIncluded =
             arrayOf<String>(
                 "org.jetbrains.kotlin.jvm",
-                "com.github.ben-manes.versions",
+                "io.github.ben-manes.versions",
                 "jacoco",
                 "com.adarshr.test-logger",
                 "org.owasp.dependencycheck",
