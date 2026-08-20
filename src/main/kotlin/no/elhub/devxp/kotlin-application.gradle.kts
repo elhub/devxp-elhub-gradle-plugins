@@ -1,5 +1,5 @@
-/**
- * Define standard Elhub conventions for Kotlin libraries
+/*
+ * Define standard Elhub conventions for Kotlin applications
  */
 package no.elhub.devxp
 

@@ -30,7 +30,7 @@ class KotlinCoreTest : FunSpec({
         val pluginsIncluded =
             arrayOf<String>(
                 "org.jetbrains.kotlin.jvm",
-                "com.github.ben-manes.versions",
+                "io.github.ben-manes.versions",
                 "jacoco",
                 "com.adarshr.test-logger",
                 "org.owasp.dependencycheck",
@@ -59,7 +59,7 @@ class KotlinCoreTest : FunSpec({
             val testTask = project.tasks.getByName("test") as org.gradle.api.tasks.testing.Test
 
             val jacocoExtension = project.extensions.getByType(JacocoPluginExtension::class.java)
-            jacocoExtension.toolVersion shouldBe "0.8.14"
+            jacocoExtension.toolVersion shouldBe "0.8.15"
 
             val jacocoTestReportTask = project.tasks.getByName("jacocoTestReport") as JacocoReport
             jacocoTestReportTask.dependsOn(testTask)
