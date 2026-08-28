@@ -35,7 +35,6 @@ class KotlinCoreTest : FunSpec({
                 "com.adarshr.test-logger",
                 "org.owasp.dependencycheck",
                 "org.jetbrains.dokka",
-                "org.cyclonedx.bom",
             )
 
         pluginsIncluded.forEach { plugin ->
@@ -74,7 +73,6 @@ class KotlinCoreTest : FunSpec({
                 "assemble",
                 "dependencyUpdates",
                 "dependencyCheckAnalyze",
-                "cyclonedxBom",
                 "dokkaGenerate",
                 "dokkaGenerateHtml",
                 "jacocoTestReport",
@@ -151,7 +149,11 @@ class KotlinCoreTest : FunSpec({
         }
 
         test("should work with -PdependencyCHeck.suppressionFile") {
-            val result = testInstance.runTask("dependencyCheckAnalyze", "-PdependencyCheck.suppressionFile=suppressions.xml", "--dry-run")
+            val result = testInstance.runTask(
+                "dependencyCheckAnalyze",
+                "-PdependencyCheck.suppressionFile=suppressions.xml",
+                "--dry-run"
+            )
             result.output shouldContain ":dependencyCheckAnalyze"
             result.output shouldContain "BUILD SUCCESSFUL"
         }
@@ -193,19 +195,6 @@ class KotlinCoreTest : FunSpec({
             shouldThrow<UnexpectedBuildFailure> {
                 testInstance.runTask("teamcityCheck")
             }
-        }
-    }
-
-    context("When cyclonedxBom is run with this plugin") {
-
-        test("should work") {
-            val result = testInstance.runTask("cyclonedxBom")
-            result.output shouldContain ":cyclonedxBom"
-            result.output shouldContain "BUILD SUCCESSFUL"
-        }
-
-        afterSpec {
-            testInstance.dispose()
         }
     }
 })
