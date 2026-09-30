@@ -31,7 +31,6 @@ class KotlinServiceTest : FunSpec({
                 "com.adarshr.test-logger",
                 "org.owasp.dependencycheck",
                 "org.jetbrains.dokka",
-                "org.cyclonedx.bom",
             )
 
         pluginsIncluded.forEach { plugin ->
@@ -46,7 +45,6 @@ class KotlinServiceTest : FunSpec({
         val optionsExpected =
             arrayOf<String>(
                 "assemble",
-                "cyclonedxBom",
                 "dependencyCheckAnalyze",
                 "dependencyUpdates",
                 "jacocoTestReport",
