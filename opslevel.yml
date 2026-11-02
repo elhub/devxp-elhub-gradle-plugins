@@ -1,0 +1,25 @@
+---
+version: 1
+component:
+  name: devxp-elhub-gradle-plugins
+  type: library
+  lifecycle: production
+  tier: tier_3
+  owner: team-devxp
+  system: developer_experience
+  language: Kotlin
+  framework: Gradle
+  description: |-
+    Shared Gradle convention plugins that standardize build, test, and publishing configuration for Elhub Kotlin/JVM projects.
+  aliases:
+    - devxp_elhub_gradle_plugins
+  repositories:
+    - name: elhub/devxp-elhub-gradle-plugins
+      path: /
+      provider: github
+      display_name: devxp-elhub-gradle-plugins
+  tools:
+    - name: Source Code
+      category: code
+      url: https://github.com/elhub/devxp-elhub-gradle-plugins
+      environment: Production
