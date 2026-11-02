@@ -1,0 +1,48 @@
+---
+version: 1
+component:
+  name: devxp-elhub-gradle-plugins
+  type: library
+  lifecycle: production
+  tier: tier_3
+  owner: team-devxp
+  system: developer_experience
+  language: Kotlin
+  framework: Gradle
+  description: |-
+    Shared Gradle convention plugins that standardize build, test, and publishing configuration for Elhub Kotlin/JVM projects.
+  aliases:
+    - devxp_elhub_gradle_plugins
+    - no.elhub.devxp.devxp-elhub-gradle-plugins
+  repositories:
+    - name: elhub/devxp-elhub-gradle-plugins
+      path: /
+      provider: github
+      display_name: devxp-elhub-gradle-plugins
+  tools:
+    - name: Source Code
+      category: code
+      url: https://github.com/elhub/devxp-elhub-gradle-plugins
+      environment: Production
+    - name: TeamCity
+      category: continuous_integration
+      url: https://teamcity.elhub.cloud/project/Devxp_DevxpElhubGradlePlugins?mode=builds#all-projects
+      environment: Production
+    - name: SonarQube
+      category: security_scans
+      url: https://sonar.elhub.cloud/project/overview?id=no.elhub.devxp.devxp-elhub-gradle-plugins
+      environment: Production
+    - name: Dependency Track
+      category: security_scans
+      url: https://dependencytrack-ui.elhub.cloud/projects/21471534-cfec-4dc7-9aed-f37ea954c07e
+      environment: Production
+    - name: Issue Tracker
+      category: issue_tracking
+      url: https://elhub.atlassian.net/issues?jql=component%3Ddevxp-elhub-gradle-plugins%20AND%20resolution%20%3D%20Unresolved
+    - name: Documentation
+      category: wiki
+      url: https://docs.elhub.cloud/enabling-systems/devxp/devxp-elhub-gradle-plugins/index.html
+      environment: Production
+  dependencies:
+  alert_sources:
+  properties:
