@@ -7,10 +7,8 @@ import no.elhub.devxp.build.configuration.pipeline.jobs.gradleVerify
 elhubProject(DEVXP, "devxp-elhub-gradle-plugins") {
     pipeline {
         sequential {
-            val artifacts = gradleVerify {
-                analyzeDependencies = false
-                enablePublishMetrics = true
-            }
+            val artifacts = gradleVerify()
+
             gradlePublish(artifacts = listOf(artifacts)) {
                 repository = ELHUB_PLUGINS_RELEASE_LOCAL
             }
